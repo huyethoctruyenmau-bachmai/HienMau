@@ -1,7 +1,7 @@
 {
-  "name": "QUẢN LÝ HIẾN MÁU - VIỆN HUYẾT HỌC TRUYỀN MÁU BẠCH MAI",
-  "short_name": "Quản lý hiến máu",
-  "description": "Đăng ký và quản lý hiến máu, hiến tiểu cầu - Viện Huyết học và Truyền máu Bạch Mai",
+  "name": "HIẾN MÁU BỆNH VIỆN BẠCH MAI",
+  "short_name": "Hiến máu Bạch Mai",
+  "description": "Đăng ký, tiếp nhận và quản lý kết quả hiến máu Bệnh viện Bạch Mai, cơ sở Hà Nội và Ninh Bình.",
   "id": "./",
   "start_url": "./",
   "scope": "./",
@@ -11,7 +11,17 @@
   "lang": "vi",
   "orientation": "any",
   "icons": [
-    {"src":"icon-192-v5.3.png","sizes":"192x192","type":"image/png","purpose":"any maskable"},
-    {"src":"icon-512-v5.3.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}
+    {
+      "src": "icon-192-v5.3.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "icon-512-v5.3.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
   ]
 }
