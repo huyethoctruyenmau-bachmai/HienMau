@@ -78,7 +78,7 @@
     }
     #staffShell .table-wrap{max-width:100%;overflow-x:auto}
 
-    /* 22.5: một chuẩn LIS góc vuông và hai khung thống nhất. */
+    /* 23.5: một chuẩn LIS góc vuông và hai khung thống nhất. */
     :root{--radius:0px;--panel-left:260px;--progress-h:94px}
     body .app-header button,body button,body .card,body .login-card,body .choice,body .slot,body .input,body .select,body .textarea,body .birth-segments,
     body .appointments-filter,body .appointments-list,body .settings-sidebar,body .settings-content,body .table-wrap,body .stat,body .modal,
@@ -180,11 +180,11 @@
     <section id="loginShell" class="login-page hidden">
       <form id="loginForm" class="login-card">
         <h2>ĐĂNG NHẬP</h2>
-        <div class="field"><label for="employeeCode">Mã nhân viên</label><input id="employeeCode" class="input" autocomplete="username" required></div>
-        <div class="field" style="margin-top:14px"><label for="loginFacility">Cơ sở làm việc</label><select id="loginFacility" class="select" required><option value="">Đang tải cơ sở...</option></select></div>
+        <div class="field"><label for="loginFacility">Cơ sở làm việc</label><select id="loginFacility" class="select" required disabled><option value="">Đang tải cơ sở...</option></select><button id="loginFacilityRefreshBtn" class="btn btn-secondary hidden" type="button" style="margin-top:8px">Tải lại danh sách cơ sở</button></div>
+        <div class="field" style="margin-top:14px"><label for="employeeCode">Mã nhân viên</label><input id="employeeCode" class="input" autocomplete="username" required></div>
         <div class="field" style="margin-top:14px"><label for="employeePassword">Mật khẩu</label><input id="employeePassword" class="input" type="password" autocomplete="current-password" required></div>
         <button id="loginBtn" class="btn btn-primary" type="submit" style="width:100%;margin-top:20px">ĐĂNG NHẬP</button>
-        <div class="version">Phiên bản 22.5</div>
+        <div class="version">Phiên bản 23.5</div>
       </form>
     </section>
 
@@ -385,7 +385,7 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='22.5';
+    const VERSION='23.5';
     const WEB_APP_URL='https://script.google.com/macros/s/AKfycbw8uT0HvqtK3cv8hLVgqJv21VOaP5fY0Rno_lzDP0RYSqEZwS9zMIRV0LxmksTn9sRe/exec';
     const STAFF_TOKEN_KEY='bm_donation_staff_token';
     const PUSH_DEVICE_KEY='bm_donation_push_device_id';
@@ -435,6 +435,7 @@
       $('loginForm').addEventListener('submit',login);
       $('publicFacility').onchange=()=>{const facility=$('publicFacility').value;resetRegistrationSession();state.donationTypes=state.donationTypesByFacility?.[facility]||[];renderDonationChoices();};
       $('publicRetryBtn').onclick=async()=>{try{await refreshFacilityBootstrap()}catch(e){toast('Không tải được cơ sở: '+e.message)}};
+      $('loginFacilityRefreshBtn').onclick=async()=>{try{await refreshFacilityBootstrap()}catch(e){toast('Không tải được cơ sở: '+e.message)}};
       $('settingsFacilitySelect').onchange=()=>{const value=$('settingsFacilitySelect').value;if(state.settingsDirty&&!confirm('Bạn có thay đổi chưa lưu. Bỏ thay đổi để đổi cơ sở?')){$('settingsFacilitySelect').value=state.settingsFacility||state.facilityId;return;}state.settingsDirty=false;state.settingsFacility=value;state.settings=null;setSettingsTab(state.settingsTab);};
       $('settingsData').addEventListener('input',()=>{if(state.settings)state.settingsDirty=true;});
       $('settingsData').addEventListener('change',()=>{if(state.settings)state.settingsDirty=true;});
@@ -471,11 +472,11 @@
     }
     function fillStatusOptions(){Object.entries(STATUS_LABEL).forEach(([v,l])=>$('apptStatus').insertAdjacentHTML('beforeend',`<option value="${v}">${esc(l)}</option>`))}
 
-    async function init(){bindStatic();registerServiceWorker();try{await refreshFacilityBootstrap()}catch(e){$('publicFacility').disabled=true;$('publicFacility').innerHTML='<option value="">Không tải được cơ sở</option>';$('publicRetryBtn').classList.remove('hidden');toast('Không tải được cơ sở: '+e.message);}
+    async function init(){bindStatic();registerServiceWorker();try{await refreshFacilityBootstrap()}catch(e){$('loginFacility').disabled=true;$('loginFacility').innerHTML='<option value="">Không tải được danh sách cơ sở</option>';$('loginFacilityRefreshBtn').classList.remove('hidden');$('publicFacility').disabled=true;$('publicFacility').innerHTML='<option value="">Không tải được cơ sở</option>';$('publicRetryBtn').classList.remove('hidden');toast('Không tải được cơ sở: '+e.message);}
      if(state.entryMode==='donor'){enterPublic(true);return;}showLogin();if(state.staffToken){try{const s=await api('account_session',{token:state.staffToken});state.staffUser=s.user;state.facilityId=s.user.facilityId;renderReportFacilities();await enterStaff();}catch(e){localStorage.removeItem(STAFF_TOKEN_KEY);state.staffToken='';}}
     }
     function showLogin(){document.body.classList.remove('public-register-active');$('registrationProgress').classList.add('hidden');$('loginShell').classList.remove('hidden');$('publicShell').classList.add('hidden');$('staffShell').classList.add('hidden');$('questionsShell').classList.add('hidden');$('settingsShell').classList.add('hidden');$('menuBtn').classList.add('hidden');$('bellWrap').classList.add('hidden');$('staffUser').classList.add('hidden');$('headerLogout').classList.add('hidden');$('headerFacility').textContent=''}
-    async function login(e){e.preventDefault();const btn=$('loginBtn');setLoading(btn,true,'Đang đăng nhập');try{const d=await api('account_login',{employeeCode:$('employeeCode').value.trim(),password:$('employeePassword').value,facilityId:$('loginFacility').value});state.staffToken=d.token;state.staffUser=d.user;state.facilityId=d.user.facilityId;clearStaffViews();renderReportFacilities();localStorage.setItem(STAFF_TOKEN_KEY,d.token);await enterStaff();toast('Đăng nhập thành công.');}catch(err){toast(err.message);}finally{setLoading(btn,false);}}
+    async function login(e){e.preventDefault();if(!$('loginFacility').value){toast('Vui lòng chọn cơ sở đang hoạt động. Nếu danh sách trống, liên hệ quản trị để bật cơ sở.');return;}const btn=$('loginBtn');setLoading(btn,true,'Đang đăng nhập');try{const d=await api('account_login',{employeeCode:$('employeeCode').value.trim(),password:$('employeePassword').value,facilityId:$('loginFacility').value});state.staffToken=d.token;state.staffUser=d.user;state.facilityId=d.user.facilityId;clearStaffViews();renderReportFacilities();localStorage.setItem(STAFF_TOKEN_KEY,d.token);await enterStaff();toast('Đăng nhập thành công.');}catch(err){toast(err.message);}finally{setLoading(btn,false);}}
     function clearStaffViews(){state.settings=null;state.settingsDirty=false;state.reportItems=[];state.reportFilterKey='';state.appointmentItems=[];state.notifications=[];state.notificationsLoaded=false;
       [['appointmentsTable','Nhấn XEM DS để tải dữ liệu.'],['directoryTable','Nhấn XEM DS để tải dữ liệu.'],['reportTable','Nhấn XEM BÁO CÁO để tải dữ liệu.'],['questionsTable','Nhấn XEM CÂU HỎI để tải dữ liệu.']].forEach(([id,t])=>$(id).innerHTML='<div class="empty">'+t+'</div>');
       $('reportSummary').innerHTML='';$('dashboardStats').innerHTML='<div class="empty">Nhấn XEM THỐNG KÊ để tải dữ liệu.</div>';$('checkinResult').innerHTML='';$('notificationList').innerHTML='';setBellBadge(0);setSettingsTab('general');}
@@ -554,9 +555,10 @@
     async function saveConfig(type){if(!state.settings)return;let payload;if(type==='GENERAL'){payload={...state.settings.general.data,location:$('cfgLocation').value.trim(),supportPhone:$('cfgSupportPhone').value.trim(),workingHours:$('cfgWorkingHours').value.trim()}}else if(type==='DONATION_SCHEDULE'){const base=state.settings.schedule.data;payload={maxAdvanceMonths:Number($('cfgMaxMonths').value||1),excludeWeekends:$('cfgExcludeWeekends').checked,excludedDates:$('cfgExcludedDates').value.split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean),slots:(base.slots||[]).map((s,i)=>({...s,capacity:Number($$('[data-slot-cap]')[i]?.value||0),enabled:!!$$('[data-slot-enabled]')[i]?.checked}))}}else if(type==='DONATION_ELIGIBILITY'){payload = { types:state.settings.eligibility.data.types||{},enabledDonationTypes:$$('[data-enabled-donation]').filter(x=>x.checked).map(x=>x.value), blood: { minAge:Number($('cfgBloodMinAge').value),maxAge:Number($('cfgBloodMaxAge').value),minWeightMale:Number($('cfgBloodMaleWeight').value),minWeightFemale:Number($('cfgBloodFemaleWeight').value)},platelet:{minAge:Number($('cfgPlateletMinAge').value),maxAge:Number($('cfgPlateletMaxAge').value),minWeight:Number($('cfgPlateletWeight').value)}}}else if(type==='NOTIFICATION_CONFIG'){payload={retentionDays:Number($('cfgRetentionDays').value),cleanupIntervalHours:Number($('cfgCleanupHours').value),notifyNewRegistration:$('cfgNotifyNew').checked,notifyReschedule:$('cfgNotifyReschedule').checked,notifyCancellation:$('cfgNotifyCancel').checked,notifyOrganizationRegistration:$('cfgNotifyOrg').checked}}else{const base=state.settings.guidelines.data;payload={sections:$$('[data-guide]').map((el,i)=>({id:base.sections?.[i]?.id||`SEC_${i+1}`,title:el.querySelector('[data-guide-title]').value.trim(),items:el.querySelector('[data-guide-items]').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}))}}try{const saved=await api('settings_save',{token:state.staffToken,facilityId:state.settingsFacility||state.facilityId,type,payload});const section={GENERAL:'general',DONATION_SCHEDULE:'schedule',DONATION_ELIGIBILITY:'eligibility',NOTIFICATION_CONFIG:'notification',GUIDELINES:'guidelines'}[type];if(section)state.settings[section]=saved;state.settingsDirty=false;toast('Đã lưu cấu hình.');}catch(e){toast(e.message)}}
 
 
-    async function refreshFacilityBootstrap(){const cfg=await api('public_getInfo');state.facilities=cfg.allFacilities||[];state.donationTypesByFacility=cfg.donationTypesByFacility||{};renderFacilityChoices();}
+    async function refreshFacilityBootstrap(){const cfg=await api('public_getInfo');if(!Array.isArray(cfg.allFacilities)||!['CSHN','CSNB'].every(id=>cfg.allFacilities.some(f=>f&&f.id===id&&typeof f.enabled==='boolean')))throw new Error('Backend chưa trả cấu hình hai cơ sở hợp lệ. Kiểm tra phiên bản và deployment Apps Script.');state.facilities=cfg.allFacilities;state.donationTypesByFacility=cfg.donationTypesByFacility||{};renderFacilityChoices();}
     function renderFacilityChoices(){const list=state.facilities||[],enabled=list.filter(x=>x.enabled===true&&x.publicEnabled!==false),active=list.filter(x=>x.enabled===true);const oldLogin=$('loginFacility').value,oldPublic=$('publicFacility').value;
-      $('loginFacility').innerHTML=active.length?'<option value="">Chọn cơ sở</option>'+active.map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.id)}</option>`).join(''):'<option value="">Chưa có cơ sở hoạt động</option>';
+      $('loginFacility').innerHTML=active.length?'<option value="">Chọn cơ sở</option>'+active.map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.id)}</option>`).join(''):'<option value="">Chưa có cơ sở hoạt động – liên hệ quản trị</option>';
+      $('loginFacility').disabled=!active.length;$('loginFacilityRefreshBtn').classList.toggle('hidden',!!active.length);
       if(active.some(x=>x.id===oldLogin))$('loginFacility').value=oldLogin;
       $('publicFacility').innerHTML=enabled.length?'<option value="">Chọn cơ sở</option>'+enabled.map(x=>`<option value="${esc(x.id)}">${esc(x.name||x.id)}</option>`).join(''):'<option value="">Đang tạm ngừng nhận đăng ký</option>';
       $('publicFacility').disabled=!enabled.length;$('publicRetryBtn').classList.add('hidden');
@@ -601,7 +603,7 @@
     async function markAllRead(){try{await api('notifications_markRead',{token:state.staffToken,all:true});state.notifications.forEach(n=>n.read=true);renderNotificationList();setBellBadge(0)}catch(e){toast(e.message)}}
     function onForegroundNotification(p){const title=p.title||p.notification?.title||'Có thông tin mới';const body=p.body||p.notification?.body||'';toast(`${title}${body?': '+body:''}`,'Xem',()=>{switchStaffArea('management');setStaffTab('appointments');$('apptKeyword').value=p.registrationId||'';loadAppointments()});refreshNotificationBadge()}
 
-    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=22.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
+    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=23.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
     function getDeviceId(){let id=localStorage.getItem(PUSH_DEVICE_KEY);if(!id){id='DEV_'+crypto.randomUUID();localStorage.setItem(PUSH_DEVICE_KEY,id)}return id}
     async function initPushForeground(){if(!state.staffToken)return;try{state.pushConfig=await api('push_getClientConfig',{token:state.staffToken});if(!state.pushConfig.enabled)return;const [{initializeApp},{getMessaging,onMessage}]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js')]);const app=initializeApp(state.pushConfig.firebaseConfig);state.pushMessaging=getMessaging(app);onMessage(state.pushMessaging,payload=>onForegroundNotification({title:payload.notification?.title||payload.data?.title,body:payload.notification?.body||payload.data?.body,...payload.data}));await refreshPushButton()}catch(e){}}
     async function refreshPushButton(){try{const d=await api('push_getStatus',{token:state.staffToken,deviceId:getDeviceId()});$('pushToggleBtn').textContent=d.registered?'Tắt thông báo':'Bật thông báo';$('pushTestBtn').classList.toggle('hidden',!d.registered)}catch(e){}}
