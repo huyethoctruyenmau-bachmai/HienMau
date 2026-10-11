@@ -1,5 +1,5 @@
-/* Hiến máu Bạch Mai – PWA 28.5: không lưu cache dữ liệu nghiệp vụ. */
-const CACHE_NAME='hienmau-static-28.5';
+/* Hiến máu Bạch Mai – PWA 29.5: không lưu cache dữ liệu nghiệp vụ. */
+const CACHE_NAME='hienmau-static-29.5';
 const STATIC_ASSETS=['./manifest.json','./icon-192-v5.3.png','./icon-512-v5.3.png','./apple-touch-icon-v5.3.png','./favicon-v5.3.png'];
 self.addEventListener('install',event=>{
   event.waitUntil(caches.open(CACHE_NAME).then(cache=>cache.addAll(STATIC_ASSETS)).then(()=>self.skipWaiting()));
