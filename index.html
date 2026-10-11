@@ -171,14 +171,22 @@
       body.staff-session .staff-user{max-width:56px}
     }
 
+    /* 27.5: form gọn, ô nhập trong một hàng vẫn thẳng mép dưới. */
+    #publicRegister .individual-info-grid,#publicRegister .registration-grid{row-gap:6px;column-gap:10px}
+    #publicRegister .field{gap:3px}
+    #publicRegister .field>label{min-height:0;height:auto;line-height:1.2;align-items:flex-end}
+    #publicRegister .field>.input,#publicRegister .field>.select,#publicRegister .field>.birth-segments{margin-top:auto}
+    #publicRegister .registration-choice-section{gap:7px}
+    #publicRegister .registration-choice-line{gap:7px}
+    #publicRegister .name-gender-row{gap:10px}
     /* 25.5 – Form công khai: ô đồng chiều cao, nhãn cùng baseline. */
     #publicRegister .individual-info-grid,#publicRegister .registration-grid{gap:10px;grid-auto-rows:auto;align-items:stretch}
     #publicRegister .field{min-width:0;height:100%}
-    #publicRegister .field>label{min-height:42px;display:flex;align-items:end}
+    #publicRegister .field>label{min-height:0;display:flex;align-items:end;line-height:1.2}
     #publicRegister .input,#publicRegister .select,#publicRegister .birth-segments{height:46px;min-height:46px;max-height:46px;border-radius:0}
     #publicRegister .birth-segments input{min-height:42px;height:42px}
     #publicRegister .name-gender-row{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,5fr) minmax(145px,1fr);gap:10px;min-width:0}
-    #publicRegister .registration-grid .field>label{min-height:42px}
+    #publicRegister .registration-grid .field>label{min-height:0}
     #publicRegister .textarea{min-height:100px;height:auto;max-height:none}
     #staffCheckin .checkin-options{display:grid;gap:10px;margin-top:12px}
     #staffCheckin .checkin-options .btn{width:100%;justify-content:flex-start;text-align:left;white-space:normal}
@@ -238,7 +246,7 @@
         <div class="field" style="margin-top:14px"><label for="employeeCode" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M5.5 16c.6-1.7 2-2.5 3.5-2.5s2.9.8 3.5 2.5M15 9h4M15 13h4"/></svg><span>Mã nhân viên</span></label><input id="employeeCode" class="input" autocomplete="username" required></div>
         <div class="field" style="margin-top:14px"><label for="employeePassword" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>Mật khẩu</span></label><input id="employeePassword" class="input" type="password" autocomplete="current-password" required></div>
         <button id="loginBtn" class="btn btn-primary" type="submit" style="width:100%;margin-top:20px"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg><span>ĐĂNG NHẬP</span></button>
-        <div class="version">Phiên bản 26.5</div>
+        <div class="version">Phiên bản 27.5</div>
       </form>
     </section>
 
@@ -410,13 +418,13 @@
             <div id="settingsData" class="hidden">
             <section id="settingsGeneral"><div class="card" style="margin-bottom:10px"><b>Trạng thái hoạt động và đăng ký theo cơ sở</b><div id="facilitySettingsControls" class="settings-grid" style="margin:10px 0"></div><button id="saveFacilitiesBtn" class="btn btn-secondary">Lưu trạng thái hai cơ sở</button></div><div class="settings-grid"><div class="field"><label>Địa điểm tiếp nhận</label><input id="cfgLocation" class="input"></div><div class="field"><label>Số điện thoại hỗ trợ</label><input id="cfgSupportPhone" class="input"></div><div class="field"><label>Giờ làm việc / ghi chú lịch</label><input id="cfgWorkingHours" class="input"></div></div><div class="actions"><button class="btn btn-primary" data-save-config="GENERAL">Lưu</button></div></section>
             <section id="settingsSchedule" class="hidden"><div class="settings-grid"><div class="field"><label>Số tháng được đăng ký trước</label><input id="cfgMaxMonths" class="input" type="number" min="1" max="12"></div><div class="field"><label><input id="cfgExcludeWeekends" type="checkbox"> Tự loại Thứ Bảy và Chủ nhật</label></div><div class="field span6"><label>Ngày không tổ chức (mỗi ngày một dòng, yyyy-mm-dd)</label><textarea id="cfgExcludedDates" class="textarea"></textarea></div></div><div id="cfgSlots" style="margin-top:12px"></div><div class="actions"><button class="btn btn-primary" data-save-config="DONATION_SCHEDULE">Lưu lịch</button></div></section>
-            <section id="settingsEligibility" class="hidden"><div class="settings-grid"><div class="field"><label>Hiến máu - tuổi tối thiểu</label><input id="cfgBloodMinAge" class="input" type="number"></div><div class="field"><label>Hiến máu - tuổi tối đa</label><input id="cfgBloodMaxAge" class="input" type="number"></div><div class="field"><label>Hiến máu - cân nặng Nam tối thiểu</label><input id="cfgBloodMaleWeight" class="input" type="number"></div><div class="field"><label>Hiến máu - cân nặng Nữ tối thiểu</label><input id="cfgBloodFemaleWeight" class="input" type="number"></div><div class="field"><label>Hiến tiểu cầu - tuổi tối thiểu</label><input id="cfgPlateletMinAge" class="input" type="number"></div><div class="field"><label>Hiến tiểu cầu - tuổi tối đa</label><input id="cfgPlateletMaxAge" class="input" type="number"></div><div class="field"><label>Hiến tiểu cầu - cân nặng tối thiểu</label><input id="cfgPlateletWeight" class="input" type="number"></div></div><div class="field" style="margin-top:10px"><label>Loại hiến được áp dụng tại cơ sở này</label><div id="cfgFacilityDonationTypes" style="display:flex;flex-wrap:wrap;gap:12px;padding:8px"></div></div><div class="actions"><button id="saveEligibilityBtn" class="btn btn-primary" data-save-config="DONATION_ELIGIBILITY">Lưu điều kiện</button></div></section>
+            <section id="settingsEligibility" class="hidden"><p class="subtle">Ngưỡng tuổi/cân nặng là quy định pháp lý theo Thông tư 26/2013/TT-BYT — chỉ xem. Bên dưới vẫn được chọn loại hiến áp dụng tại từng cơ sở.</p><div class="settings-grid"><div class="field"><label>Hiến máu - tuổi tối thiểu</label><input id="cfgBloodMinAge" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến máu - tuổi tối đa</label><input id="cfgBloodMaxAge" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến máu - cân nặng Nam tối thiểu</label><input id="cfgBloodMaleWeight" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến máu - cân nặng Nữ tối thiểu</label><input id="cfgBloodFemaleWeight" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến tiểu cầu - tuổi tối thiểu</label><input id="cfgPlateletMinAge" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến tiểu cầu - tuổi tối đa</label><input id="cfgPlateletMaxAge" class="input" type="number" readonly aria-readonly="true"></div><div class="field"><label>Hiến tiểu cầu - cân nặng tối thiểu</label><input id="cfgPlateletWeight" class="input" type="number" readonly aria-readonly="true"></div></div><div class="field" style="margin-top:10px"><label>Loại hiến được áp dụng tại cơ sở này</label><div id="cfgFacilityDonationTypes" style="display:flex;flex-wrap:wrap;gap:12px;padding:8px"></div></div><div class="actions"><button id="saveEligibilityBtn" class="btn btn-primary" data-save-config="DONATION_ELIGIBILITY">Lưu loại hiến áp dụng</button></div></section>
             <section id="settingsNotification" class="hidden"><div class="settings-grid"><div class="field"><label>Giữ thông báo (ngày)</label><input id="cfgRetentionDays" class="input" type="number"></div><div class="field"><label>Chu kỳ kiểm tra dọn (giờ)</label><input id="cfgCleanupHours" class="input" type="number"></div><label><input id="cfgNotifyNew" type="checkbox"> Báo đăng ký mới</label><label><input id="cfgNotifyReschedule" type="checkbox"> Báo đổi lịch</label><label><input id="cfgNotifyCancel" type="checkbox"> Báo hủy lịch</label><label><input id="cfgNotifyOrg" type="checkbox"> Báo đăng ký tổ chức</label></div><div class="actions"><button class="btn btn-primary" data-save-config="NOTIFICATION_CONFIG">Lưu thông báo</button></div></section>
             <section id="settingsGuidelines" class="hidden"><div id="guidelineEditors"></div><div class="actions"><button class="btn btn-primary" data-save-config="GUIDELINES">Lưu hướng dẫn</button></div></section>
             <section id="settingsRules" class="hidden">
               <p class="subtle">Thiết lập loại hiến, khoảng cách giữa các lần hiến (tháng) và ngưỡng chuyên môn. Mã đã sử dụng không được sửa để bảo toàn dữ liệu cũ. Chỉ Super Admin được lưu.</p>
               <div class="appointments-list-head"><h3>LOẠI HIẾN VÀ KHOẢNG CÁCH</h3><button type="button" id="ruleAddTypeBtn" class="btn btn-secondary">THÊM LOẠI HIẾN</button></div>
-              <div class="table-wrap rules-table-wrap"><table class="table"><thead><tr><th>Mã loại hiến</th><th>Tên hiển thị</th><th>Khoảng cách (tháng)</th><th>Thao tác</th></tr></thead><tbody id="ruleTypesBody"><tr><td class="empty" colspan="4">Nhấn XEM CẤU HÌNH để tải danh mục.</td></tr></tbody></table></div>
+              <div class="table-wrap rules-table-wrap"><table class="table"><thead><tr><th>Mã loại hiến</th><th>Tên hiển thị</th><th>Khoảng cách tối thiểu</th><th>Thao tác</th></tr></thead><tbody id="ruleTypesBody"><tr><td class="empty" colspan="4">Nhấn XEM CẤU HÌNH để tải danh mục.</td></tr></tbody></table></div>
               <h3 style="margin:16px 0 8px">NGƯỠNG TUỔI / CÂN NẶNG CHO LOẠI HIẾN BỔ SUNG</h3>
               <p class="subtle">Loại hiến máu và tiểu cầu dùng ngưỡng tại mục Điều kiện hiến. Ngưỡng của loại hiến bổ sung phải được xác nhận chuyên môn trước khi lưu.</p>
               <div class="table-wrap rules-table-wrap"><table class="table"><thead><tr><th>Loại hiến</th><th>Tuổi tối thiểu</th><th>Tuổi tối đa</th><th>Cân nặng tối thiểu (kg)</th></tr></thead><tbody id="ruleExtraBody"><tr><td colspan="4" class="empty">Chưa có loại hiến bổ sung.</td></tr></tbody></table></div>
@@ -437,7 +445,7 @@
 
   <div id="notificationPanel" class="notification-panel hidden"><div class="notification-head"><span>Thông báo</span><div><button id="markAllReadBtn" class="btn btn-text">Đọc tất cả</button><button id="notificationClose" class="icon-btn" style="color:#5f6368"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div id="notificationList" class="notification-list"></div></div>
 
-  <div id="eligibilityModal" class="modal-backdrop hidden"><div class="modal"><h3 id="eligibilityTitle"></h3><div id="eligibilityBody"></div><div class="actions"><button id="eligibilityOk" class="btn btn-primary">ĐÃ HIỂU</button></div></div></div>
+  <div id="eligibilityModal" class="modal-backdrop hidden"><div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="eligibilityTitle"><h3 id="eligibilityTitle" style="text-align:center;color:#b91c1c">BẠN CHƯA ĐỦ ĐIỀU KIỆN THAM GIA HIẾN MÁU</h3><div id="eligibilityBody"></div><p style="text-align:center;font-weight:700;margin:18px 0 8px">XIN TRÂN TRỌNG CẢM ƠN!</p><div class="actions"><button id="eligibilityOk" type="button" class="btn btn-primary">QUAY LẠI TRANG ĐĂNG KÝ</button></div></div></div>
   <div id="successModal" class="modal-backdrop hidden"><div class="modal"><h3>Đăng ký thành công</h3><div id="successInfo"></div><div id="qrBox" style="display:grid;place-items:center;margin:16px 0"></div><div class="actions"><button id="successClose" class="btn btn-primary">Đóng</button></div></div></div>
   <div id="questionModal" class="modal-backdrop hidden"><div class="modal"><h3 id="questionModalTitle">Câu hỏi</h3><div class="settings-grid"><div class="field"><label>Loại hiến</label><select id="qDonationType" class="select"><option value="ALL">Tất cả</option><option value="BLOOD">Hiến máu</option><option value="PLATELET">Hiến tiểu cầu</option></select></div><div class="field"><label>Loại câu trả lời</label><select id="qType" class="select"><option value="YES_NO">Có/Không</option><option value="TEXT">Văn bản</option></select></div><div class="field"><label>Nhóm</label><input id="qGroup" class="input"></div><div class="field"><label>Thứ tự</label><input id="qSort" class="input" type="number"></div><div class="field span6"><label>Nội dung</label><textarea id="qText" class="textarea"></textarea></div><label><input id="qRequired" type="checkbox"> Bắt buộc</label><div class="field"><label>Mức cảnh báo</label><select id="qFlagLevel" class="select"><option value="NONE">Không</option><option value="REVIEW">Cần xem xét</option><option value="HIGH">Cảnh báo cao</option></select></div></div><div class="actions"><button id="questionCancel" class="btn btn-secondary">Hủy</button><button id="questionSave" class="btn btn-primary">Lưu</button></div></div></div>
   <div id="installHelpModal" class="modal-backdrop hidden"><div class="modal"><h3>Cài ứng dụng</h3><p id="installHelpText"></p><div class="actions"><button id="installHelpClose" class="btn btn-primary">Đã hiểu</button></div></div></div>
@@ -464,7 +472,7 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='26.5';
+    const VERSION='27.5';
     const WEB_APP_URL='https://script.google.com/macros/s/AKfycbw8uT0HvqtK3cv8hLVgqJv21VOaP5fY0Rno_lzDP0RYSqEZwS9zMIRV0LxmksTn9sRe/exec';
     const STAFF_TOKEN_KEY='bm_donation_staff_token';
     const PUSH_DEVICE_KEY='bm_donation_push_device_id';
@@ -473,7 +481,7 @@
     const state={
       entryMode:new URLSearchParams(location.search).get('mode')==='donor'?'donor':'staff',pendingRegistrationId:new URLSearchParams(location.search).get('registrationId')||'',
       staffToken:localStorage.getItem(STAFF_TOKEN_KEY)||'',staffUser:null,facilityId:'',facilities:[],settingsFacility:'',activeResult:null,activeOrgResult:null,staffArea:'management',staffTab:'appointments',
-      publicTab:'register',regMode:'INDIVIDUAL',donationType:'BLOOD',regStep:1,publicToken:'',schedule:null,selectedSlot:'',questions:null,questionsPromise:null,questionsPromiseType:'',schedulePreview:null,publicConfigReady:false,ruleRows:[],answers:{},securityChecked:false,turnstileSiteKey:'',turnstileToken:'',turnstileWidget:null,
+      publicTab:'register',regMode:'INDIVIDUAL',donationType:'BLOOD',regStep:1,publicToken:'',schedule:null,selectedSlot:'',questions:null,questionsPromise:null,questionsPromiseType:'',questionsCache:{},questionsInFlight:{},schedulePreview:null,publicConfigReady:false,ruleRows:[],answers:{},securityChecked:false,turnstileSiteKey:'',turnstileToken:'',turnstileWidget:null,
       historyMode:'INDIVIDUAL',directoryMode:'donors',settings:null,settingsTab:'general',reportItems:[],reportFilterKey:'',questionEditing:null,
       notifications:[],deferredInstallPrompt:null,pushMessaging:null,pushConfig:null
     };
@@ -483,6 +491,7 @@
     const MODE_LABEL={INDIVIDUAL:'Cá nhân',ORGANIZATION:'Nhóm/Tổ chức'};
     const FACILITY_DISPLAY=Object.freeze([{id:'CSHN',name:'Bệnh viện Bạch Mai – Cơ sở Hà Nội'},{id:'CSNB',name:'Bệnh viện Bạch Mai – Cơ sở Ninh Bình'}]);
     const LAST_FACILITY_KEY='bm_donation_last_login_facility';
+    const DONATION_LAW=Object.freeze({minAge:18,maxAge:60,bloodMaleKg:45,bloodFemaleKg:42,plateletKg:50,minDays:Object.freeze({BLOOD:84,PLATELET:14})});
     const TABLE_HEADERS=Object.freeze({
       appointments:['Ngày hẹn','Loại hiến','Người/Tổ chức','SĐT','Trạng thái','Mã','Thao tác'],
       donors:['Họ tên','Ngày sinh','Giới tính','CCCD','SĐT','Email','Địa chỉ'],
@@ -570,9 +579,37 @@
       $('installAppBtn').onclick=installApp;$('pushToggleBtn').onclick=togglePush;$('pushTestBtn').onclick=sendTestPush;
       window.addEventListener('beforeinstallprompt',e=>{e.preventDefault();state.deferredInstallPrompt=e});window.addEventListener('appinstalled',()=>{state.deferredInstallPrompt=null;toast('Đã cài ứng dụng.')});
       $('citizenId').addEventListener('input',()=>{if(state.publicToken&&state.regStep===1)resetRegistrationSession()});$('contactPhone').addEventListener('input',()=>{if(state.publicToken&&state.regStep===1)resetRegistrationSession()});
+      document.addEventListener('keydown',handleAppEnter,true);
       window.addEventListener('resize',setMobileTheme);setMobileTheme();initBirth();fillStatusOptions();$('registrationProgressSteps').append($('stepperIndividual'),$('stepperOrganization'));
       navigator.serviceWorker?.addEventListener('message',e=>{if(e.data?.type==='FCM_MESSAGE')onForegroundNotification(e.data.payload||{})});
        decorateAsyncButtons();new MutationObserver(decorateAsyncButtons).observe(document.body,{childList:true,subtree:true});
+    }
+    /* Enter: focus next visible field, or execute the appropriate safe action.
+       Native buttons, multiline text, radio/checkbox and IME keep their normal behavior. */
+    function handleAppEnter(e){
+      if(e.key!=='Enter'||e.isComposing||e.ctrlKey||e.altKey||e.metaKey||e.shiftKey)return;
+      const target=e.target;
+      if(!(target instanceof HTMLElement)||target.closest('[contenteditable="true"]'))return;
+      if(target.matches('textarea,button,[type="button"],[type="submit"],[type="checkbox"],[type="radio"],[type="file"]'))return;
+      if(!target.matches('input,select'))return;
+      if(target.closest('.hidden,[hidden]')||target.disabled||target.readOnly)return;
+      const visible=el=>!el.disabled&&!el.readOnly&&!el.closest('.hidden,[hidden]')&&el.getClientRects().length>0;
+      let root=target.closest('#loginForm,#indStep1,#orgStep1,#registerTimeStep,#healthStep,#reviewStep,.appointments-filter,.settings-content,.modal,.history-controls,.card')||target.form;
+      if(!root)return;
+      let action=null;
+      if(root.id==='loginForm')action=$('loginBtn');
+      else if(['indStep1','orgStep1','registerTimeStep','healthStep','reviewStep'].includes(root.id))action=$('regNextBtn');
+      else if(target.closest('#publicHistory'))action=$('historySearchBtn');
+      else if(target.closest('#staffAppointments'))action=$('apptFilterBtn');
+      else if(target.closest('#staffDirectory'))action=$('directorySearchBtn');
+      else if(target.closest('#staffReport'))action=$('reportLoadBtn');
+      // Never auto-confirm a medical result, consent, delete, or settings write.
+      const inputs=Array.from(root.querySelectorAll('input:not([type="hidden"]),select')).filter(visible);
+      const idx=inputs.indexOf(target);
+      if(idx<0)return;
+      e.preventDefault();e.stopImmediatePropagation();
+      if(idx+1<inputs.length){inputs[idx+1].focus();return;}
+      if(action&&!action.disabled&&!action.closest('.hidden,[hidden]')&&action.dataset.busy!=='1')action.click();
     }
     function fillStatusOptions(){Object.entries(STATUS_LABEL).forEach(([v,l])=>$('apptStatus').insertAdjacentHTML('beforeend',`<option value="${v}">${esc(l)}</option>`))}
 
@@ -607,7 +644,7 @@
     async function logout(){try{if(state.staffToken)await api('account_logout',{token:state.staffToken})}catch(e){}localStorage.removeItem(STAFF_TOKEN_KEY);state.staffToken='';state.staffUser=null;state.notifications=[];state.notificationsLoaded=false;clearStaffViews();closeDrawer();showLogin()}
     function updateStaffHeader(){if(!state.staffUser)return;const u=state.staffUser,name=u.fullName||u.employeeCode;const f=state.facilities.find(x=>x.id===u.facilityId);$('staffUser').textContent=shortStaffName(name);document.body.classList.add('staff-session');$('headerTitle').textContent=String(f?.name||'Bệnh viện Bạch Mai – '+u.facilityId).toLocaleUpperCase('vi-VN');$('drawerUserName').textContent=name;$('drawerUserCode').textContent=u.employeeCode+' · '+u.facilityId;showSettingsFacilityOptions();$('staffUser').classList.remove('hidden');$('headerLogout').classList.remove('hidden');$('menuBtn').classList.remove('hidden');$('bellWrap').classList.remove('hidden');const admin=['SUPER_ADMIN','ADMIN'].includes(u.role);$('drawerSettings').classList.toggle('hidden',!admin);$('drawerSettingsSub').classList.toggle('hidden',!admin);}
     async function enterStaff(){document.body.classList.remove('public-register-active');$('registrationProgress').classList.add('hidden');state.staffArea='management';document.body.classList.remove('public-register-active');$('registrationProgress').classList.add('hidden');$('loginShell').classList.add('hidden');$('publicShell').classList.add('hidden');$('staffShell').classList.remove('hidden');$('questionsShell').classList.add('hidden');$('settingsShell').classList.add('hidden');updateStaffHeader();if(state.pendingRegistrationId)$('apptKeyword').value=state.pendingRegistrationId;setStaffTab('appointments');await refreshNotificationBadge();initPushForeground();}
-    function enterPublic(fromQr=false){$('loginShell').classList.add('hidden');$('publicShell').classList.remove('hidden');$('staffShell').classList.add('hidden');$('questionsShell').classList.add('hidden');$('settingsShell').classList.add('hidden');if(state.staffUser){updateStaffHeader()}else{$('menuBtn').classList.add('hidden');$('bellWrap').classList.add('hidden');$('staffUser').classList.add('hidden');$('headerLogout').classList.add('hidden');document.body.classList.remove('staff-session');$('headerTitle').textContent='BỆNH VIỆN BẠCH MAI'}setPublicTab('register');if(fromQr){state.entryMode='donor'}if(state.publicConfigReady)prefetchQuestionsPublic()}
+    function enterPublic(fromQr=false){$('loginShell').classList.add('hidden');$('publicShell').classList.remove('hidden');$('staffShell').classList.add('hidden');$('questionsShell').classList.add('hidden');$('settingsShell').classList.add('hidden');if(state.staffUser){updateStaffHeader()}else{$('menuBtn').classList.add('hidden');$('bellWrap').classList.add('hidden');$('staffUser').classList.add('hidden');$('headerLogout').classList.add('hidden');document.body.classList.remove('staff-session');$('headerTitle').textContent='BỆNH VIỆN BẠCH MAI'}setPublicTab('register');if(fromQr){state.entryMode='donor'}prefetchQuestionsPublic()}
 
     function openDrawer(){if(!state.staffUser)return;$('drawerBackdrop').classList.remove('hidden');$('drawer').classList.remove('hidden')}
     function closeDrawer(){$('drawerBackdrop').classList.add('hidden');$('drawer').classList.add('hidden')}
@@ -620,8 +657,27 @@
     function setDonationType(type){if(state.donationType===type)return;state.donationType=type;$$('[data-donation]').forEach(b=>b.classList.toggle('active',b.dataset.donation===type));resetRegistrationSession();prefetchQuestionsPublic()}
     function renderRegStep(){const isInd=state.regMode==='INDIVIDUAL',step=state.regStep;$('registrationProgressCounter').textContent='Bước '+step+'/'+(isInd?4:3);$('publicFacilityBox').classList.toggle('hidden',step>1);$('registrationChoiceBox').classList.toggle('hidden',step>1);$('registrationTitle').classList.toggle('hidden',step>1);['indStep1','orgStep1','registerTimeStep','healthStep','reviewStep'].forEach(id=>$(id).classList.add('hidden'));if(step===1)$(isInd?'indStep1':'orgStep1').classList.remove('hidden');else if(step===2)$('registerTimeStep').classList.remove('hidden');else if(isInd&&step===3)$('healthStep').classList.remove('hidden');else $('reviewStep').classList.remove('hidden');$('regBackBtn').classList.toggle('hidden',step===1);const finalStep=isInd?4:3;$('regNextBtn').textContent=step===finalStep?'XÁC NHẬN ĐĂNG KÝ':'Tiếp tục';const sel=isInd?'[data-step-ind]':'[data-step-org]';$$(sel).forEach((el,i)=>{const n=i+1;el.classList.toggle('active',n===step);el.classList.toggle('done',n<step)})}
     function validateIndividualStep1(){const full=$('fullName').value.trim(),birth=birthIso(),gender=$('gender').value,weight=Number($('weightKg').value),address=$('address').value.trim(),citizen=digits($('citizenId').value,12),phone=digits($('phone').value,10),email=$('email').value.trim(),previousDonationMode=$('previousDonationMode').value,lastDonationDate=$('lastDonationDate').value;
-     if(!full||!birth||!gender||!weight||weight<=0)throw new Error('Vui lòng nhập đầy đủ Họ tên, Ngày sinh, Giới tính, Cân nặng.');if(citizen.length!==12||!/^0\d{9}$/.test(phone))throw new Error('CCCD phải 12 số và số điện thoại phải 10 số hợp lệ.');if(previousDonationMode==='KNOWN'&&!lastDonationDate)throw new Error('Vui lòng chọn ngày hiến gần nhất.');return{fullName:full,birthDate:birth,gender,weightKg:weight,address,citizenId:citizen,phone,email,previousDonationMode,lastDonationDate};}
-    function showEligibilityMessage(message){const lines=String(message||'').split(/\n+/).filter(Boolean);$('eligibilityTitle').textContent=lines.shift()||'Xin lỗi, bạn chưa đủ điều kiện đăng ký.';$('eligibilityBody').innerHTML=lines.map(line=>line.startsWith('•')?`<div style="margin:6px 0">${esc(line)}</div>`:`<p>${esc(line)}</p>`).join('');$('eligibilityModal').classList.remove('hidden')}
+     if(!full||!birth||!gender||!weight||weight<=0)throw new Error('Vui lòng nhập đầy đủ Họ tên, Ngày sinh, Giới tính, Cân nặng.');if(citizen.length!==12||!/^0\d{9}$/.test(phone))throw new Error('CCCD phải 12 số và số điện thoại phải 10 số hợp lệ.');if(previousDonationMode==='KNOWN'&&!lastDonationDate)throw new Error('Vui lòng chọn ngày hiến gần nhất.');
+     const minWeight=state.donationType==='PLATELET'?DONATION_LAW.plateletKg:gender==='FEMALE'?DONATION_LAW.bloodFemaleKg:DONATION_LAW.bloodMaleKg;
+     const age=ageOn(birth,todayIso());
+     const atEnd=state.schedulePreview?.endDate?ageOn(birth,state.schedulePreview.endDate):null;
+     const badAge=age>DONATION_LAW.maxAge||(age<DONATION_LAW.minAge&&atEnd!==null&&atEnd<DONATION_LAW.minAge);
+     if(['BLOOD','PLATELET'].includes(state.donationType)&&(badAge||weight<minWeight)){
+       const e=new Error('Điều kiện chưa đáp ứng: '+(badAge?'Độ tuổi phải từ đủ 18 đến 60 tuổi vào ngày hiến. ':'')+(weight<minWeight?'Cân nặng tối thiểu '+minWeight+' kg.':''));e.code='ELIGIBILITY_FAILED';throw e;
+     }
+     return{fullName:full,birthDate:birth,gender,weightKg:weight,address,citizenId:citizen,phone,email,previousDonationMode,lastDonationDate};}
+    function showEligibilityMessage(message){
+      const raw=String(message||'');const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+      const details=lines.filter(s=>!/^BẠN CHƯA ĐỦ|^XIN (TRÂN TRỌNG|CHÂN THÀNH)|^Vui lòng kiểm tra lại|^Các điều kiện|^Điều kiện:|^Xin lỗi/i.test(s));
+      const defaults=state.donationType==='PLATELET'?['Tuổi từ đủ 18 đến 60 tuổi.','Cân nặng tối thiểu 50 kg.','Khoảng cách tối thiểu 14 ngày sau lần hiến tiểu cầu gần nhất.']:['Tuổi từ đủ 18 đến 60 tuổi.','Cân nặng nam từ 45 kg, nữ từ 42 kg.','Khoảng cách tối thiểu 84 ngày sau lần hiến máu toàn phần gần nhất.'];
+      const bullets=details.filter(s=>s.startsWith('•')).map(s=>s.slice(1).trim());
+      const reasons=details.filter(s=>!s.startsWith('•'));
+      $('eligibilityBody').innerHTML='<p style="text-align:center">Vui lòng kiểm tra lại thông tin hoặc quay lại khi bạn đủ các điều kiện.</p>'+
+        (reasons.length?'<p style="color:#b91c1c;font-weight:600">'+reasons.map(esc).join(' ')+'</p>':'')+
+        '<strong>Các điều kiện đăng ký hiến máu:</strong><ul style="padding-left:22px">'+(bullets.length?bullets:defaults).map(s=>'<li style="margin:6px 0">'+esc(s)+'</li>').join('')+'</ul>'+
+        '<p class="subtle">Không có kết luận đủ điều kiện hiến chính thức nếu chưa được khám sàng lọc.</p>';
+      $('eligibilityModal').classList.remove('hidden');$('eligibilityOk').focus();
+    }
     function validateOrgStep1(){const organizationName=$('organizationName').value.trim(),contactName=$('contactName').value.trim(),contactPhone=digits($('contactPhone').value,10),contactCitizenId=digits($('contactCitizenId').value,12),organizationAddress=$('organizationAddress').value.trim(),hotline=$('organizationHotline').value.trim(),participantCount=Number($('participantCount').value);if(!organizationName||!contactName||!organizationAddress||contactCitizenId.length!==12||!/^0\d{9}$/.test(contactPhone)||!Number.isInteger(participantCount)||participantCount<1)throw new Error('Vui lòng nhập đầy đủ thông tin người đăng ký, tổ chức và số lượng dự kiến.');return{organizationName,contactName,contactPhone,contactCitizenId,organizationAddress,hotline,participantCount};}
     async function ensureTurnstileUi(){const info=await api('public_getInfo',{facilityId:$('publicFacility').value||'CSHN'});state.securityChecked=true;state.turnstileSiteKey=info.general?.turnstileSiteKey||'';if(!state.turnstileSiteKey)throw new Error('Hệ thống yêu cầu xác minh bảo mật nhưng chưa có Site Key.');await loadTurnstile();$('captchaBox').classList.remove('hidden');if(state.turnstileWidget==null){state.turnstileWidget=turnstile.render('#captchaBox',{sitekey:state.turnstileSiteKey,callback:t=>{state.turnstileToken=t;toast('Xác minh bảo mật thành công.')}})}toast('Vui lòng hoàn thành bước xác minh bảo mật rồi bấm Tiếp tục.')}
     function loadTurnstile(){if(window.turnstile)return Promise.resolve();return new Promise((res,rej)=>{const s=document.createElement('script');s.src='https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit';s.async=true;s.defer=true;s.onload=res;s.onerror=()=>rej(new Error('Không tải được xác minh bảo mật.'));document.head.appendChild(s)})}
@@ -632,7 +688,7 @@
         state.publicToken=d.publicToken;state.schedule=d.schedule||state.schedulePreview;state.facilityId=f;setupScheduleUi();return true;
       }catch(err){if(err.code==='CAPTCHA_REQUIRED'){await ensureTurnstileUi();return false;}throw err;}
     }
-    async function regNext(){const btn=$('regNextBtn');setLoading(btn,true);try{const isInd=state.regMode==='INDIVIDUAL',final=isInd?4:3;if(state.regStep===1){const p=isInd?validateIndividualStep1():validateOrgStep1();if(!state.publicToken&&!(await startPublicSession(p)))return;state.regStep=2;renderRegStep();if(isInd)prefetchQuestionsPublic();await ensureSlotsLoaded();return}if(state.regStep===2){if(!$('appointmentDate').value)throw new Error('Vui lòng chọn ngày.');if(!state.selectedSlot)throw new Error('Vui lòng chọn khung giờ.');if(isInd){await api('public_checkDonationEligibility',{publicToken:state.publicToken,appointmentDate:$('appointmentDate').value});state.regStep=3;renderRegStep();await loadQuestionsPublic()}else{state.regStep=3;renderRegStep();renderReview()}return}if(isInd&&state.regStep===3){validateAnswers();state.regStep=4;renderRegStep();renderReview();return}if(state.regStep===final){if(isInd&&!$('consentAccepted').checked)throw new Error('Vui lòng xác nhận thông tin.');await submitRegistration();}}catch(err){if(err.code==='ELIGIBILITY_FAILED')showEligibilityMessage(err.message);else if(!err.silent)toast(err.message)}finally{setLoading(btn,false)}}
+    async function regNext(){const btn=$('regNextBtn');if(btn.dataset.busy==='1')return;setLoading(btn,true);try{const isInd=state.regMode==='INDIVIDUAL',final=isInd?4:3;if(state.regStep===1){const p=isInd?validateIndividualStep1():validateOrgStep1();if(!state.publicToken&&!(await startPublicSession(p)))return;state.regStep=2;renderRegStep();if(isInd)prefetchQuestionsPublic();await ensureSlotsLoaded();return}if(state.regStep===2){if(!$('appointmentDate').value)throw new Error('Vui lòng chọn ngày.');if(!state.selectedSlot)throw new Error('Vui lòng chọn khung giờ.');if(isInd){await api('public_checkDonationEligibility',{publicToken:state.publicToken,appointmentDate:$('appointmentDate').value,...validateIndividualStep1()});state.regStep=3;renderRegStep();await loadQuestionsPublic()}else{state.regStep=3;renderRegStep();renderReview()}return}if(isInd&&state.regStep===3){validateAnswers();state.regStep=4;renderRegStep();renderReview();return}if(state.regStep===final){if(isInd&&!$('consentAccepted').checked)throw new Error('Vui lòng xác nhận thông tin.');await submitRegistration();}}catch(err){if(['ELIGIBILITY_FAILED','DONATION_INTERVAL','DONATION_RESTRICTION'].includes(err.code))showEligibilityMessage(err.message);else if(!err.silent)toast(err.message)}finally{setLoading(btn,false)}}
     function regBack(){if(state.regStep>1){state.regStep--;renderRegStep();if((state.regMode==='INDIVIDUAL'&&state.regStep===4)||(state.regMode==='ORGANIZATION'&&state.regStep===3))renderReview()}}
     function setupScheduleUi(){if(!state.schedule)return;$('appointmentDate').min=state.schedule.startDate;$('appointmentDate').max=state.schedule.endDate;if(!$('appointmentDate').value||$('appointmentDate').value<state.schedule.startDate||$('appointmentDate').value>state.schedule.endDate)$('appointmentDate').value=nextValidDate(state.schedule);}
     function nextValidDate(s){let d=new Date(`${s.startDate}T00:00:00`),end=new Date(`${s.endDate}T00:00:00`),excluded=new Set(s.excludedDates||[]);while(d<=end){const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const weekend=d.getDay()===0||d.getDay()===6;if(!(s.excludeWeekends&&weekend)&&!excluded.has(iso))return iso;d.setDate(d.getDate()+1)}return s.startDate}
@@ -640,25 +696,31 @@
     async function loadSlots(){if(!state.publicToken||!$('appointmentDate').value)return;state.selectedSlot='';$('slotGrid').innerHTML='<div class="empty">Đang tải...</div>';try{const d=await api('schedule_getSlots',{publicToken:state.publicToken,date:$('appointmentDate').value,registrationMode:state.regMode,facilityId:state.facilityId});renderSlots(expectItems(d,'schedule_getSlots'))}catch(e){$('slotGrid').innerHTML=`<div class="empty danger-text">${esc(e.message)}</div>`}}
     function renderSlots(items){if(!items.length){$('slotGrid').innerHTML='<div class="empty">Không có khung giờ khả dụng.</div>';return}$('slotGrid').innerHTML=items.map(s=>`<button type="button" class="slot ${s.available?'':'disabled'}" data-slot="${esc(s.slotId||s.id)}" ${s.available?'':'disabled'}><div class="time">${esc(s.startTime)}–${esc(s.endTime)}</div><div class="remain">${state.regMode==='ORGANIZATION'?'Thời gian dự kiến':s.available?`Còn ${esc(s.remaining)} chỗ`:'Hết chỗ'}</div></button>`).join('');$$('[data-slot]').forEach(b=>b.onclick=()=>{state.selectedSlot=b.dataset.slot;$$('[data-slot]').forEach(x=>x.classList.toggle('active',x===b))})}
     function prefetchQuestionsPublic(){
-      if(state.regMode!=='INDIVIDUAL'||!state.publicConfigReady)return;
+      if(state.regMode!=='INDIVIDUAL')return;
       const type=state.donationType;
-      if(!state.donationTypes.some(t=>t.id===type))return;
+      if(!state.publicConfigReady&&!['BLOOD','PLATELET'].includes(type))return;
+      if(state.publicConfigReady&&!state.donationTypes.some(t=>t.id===type))return;
       if(state.questions&&state.questionsType===type)return;
-      if(state.questionsPromise&&state.questionsPromiseType===type)return;
+      if(state.questionsCache[type]){state.questions=state.questionsCache[type];state.questionsType=type;return;}
+      if(!state.questionsInFlight[type]){
+        state.questionsInFlight[type]=api('public_getQuestions',{donationType:type})
+          .then(d=>{const items=expectItems(d,'public_getQuestions');state.questionsCache[type]=items;return items;})
+          .catch(()=>null).finally(()=>{delete state.questionsInFlight[type]});
+      }
       state.questionsPromiseType=type;
-      state.questionsPromise=api('public_getQuestions',{donationType:type})
-        .then(d=>expectItems(d,'public_getQuestions'))
-        .catch(()=>null);
+      state.questionsPromise=state.questionsInFlight[type];
     }
     async function loadQuestionsPublic(){
       const type=state.donationType;
       if(!state.questions||state.questionsType!==type){
         $('questionList').innerHTML='<div class="empty">Đang tải câu hỏi...</div>';
-        if(!state.questionsPromise||state.questionsPromiseType!==type)prefetchQuestionsPublic();
-        let items=state.questionsPromise&&state.questionsPromiseType===type?await state.questionsPromise:null;
-        if(type!==state.donationType)return; // Type changed while a request was pending.
-        state.questionsPromise=null;state.questionsPromiseType='';
-        if(!items)items=expectItems(await api('public_getQuestions',{donationType:type}),'public_getQuestions');
+        let items=state.questionsCache[type];
+        if(!items){
+          prefetchQuestionsPublic();
+          items=await state.questionsInFlight[type];
+        }
+        if(type!==state.donationType)return;
+        if(!items)throw new Error('Không tải được bộ câu hỏi sức khỏe. Vui lòng nhấn Tiếp tục để thử lại.');
         state.questions=items;state.questionsType=type;
       }
       renderQuestions();
@@ -742,12 +804,12 @@
     }
     function openQuestionModal(q=null){state.questionEditing=q;$('questionModalTitle').textContent=q?'Sửa câu hỏi':'Thêm câu hỏi';$('qDonationType').value=q?.donationType||'ALL';$('qType').value=q?.questionType||'YES_NO';$('qGroup').value=q?.group||'';$('qSort').value=q?.sortOrder||0;$('qText').value=q?.text||'';$('qRequired').checked=!!q?.required;$('qFlagLevel').value=q?.flagLevel||'NONE';$('questionModal').classList.remove('hidden')}
     function closeQuestionModal(){$('questionModal').classList.add('hidden')}
-    async function saveQuestion(){try{await api('questions_save',{token:state.staffToken,question:{questionId:state.questionEditing?.questionId||'',donationType:$('qDonationType').value,questionType:$('qType').value,group:$('qGroup').value,sortOrder:Number($('qSort').value||0),text:$('qText').value,required:$('qRequired').checked,flagLevel:$('qFlagLevel').value,status:'ACTIVE'}});closeQuestionModal();loadQuestionsAdmin();toast('Đã lưu câu hỏi.')}catch(e){toast(e.message)}}
-    async function toggleQuestion(id,active){try{await api('questions_toggle',{token:state.staffToken,questionId:id,active});loadQuestionsAdmin()}catch(e){toast(e.message)}}
+    async function saveQuestion(){try{await api('questions_save',{token:state.staffToken,question:{questionId:state.questionEditing?.questionId||'',donationType:$('qDonationType').value,questionType:$('qType').value,group:$('qGroup').value,sortOrder:Number($('qSort').value||0),text:$('qText').value,required:$('qRequired').checked,flagLevel:$('qFlagLevel').value,status:'ACTIVE'}});state.questionsCache={};state.questions=null;closeQuestionModal();loadQuestionsAdmin();toast('Đã lưu câu hỏi.')}catch(e){toast(e.message)}}
+    async function toggleQuestion(id,active){try{await api('questions_toggle',{token:state.staffToken,questionId:id,active});state.questionsCache={};state.questions=null;loadQuestionsAdmin()}catch(e){toast(e.message)}}
 
     async function loadSettings(){const facility=state.settingsFacility||state.facilityId;try{const result=await api('settings_getAll',{token:state.staffToken,facilityId:facility});if(facility!==(state.settingsFacility||state.facilityId))return;state.settings=result;state.settingsFacility=facility;state.settingsDirty=false;fillSettings();renderFacilitySettings();setSettingsTab(state.settingsTab);}catch(e){toast(e.message);}}
     function setSettingsTab(tab){if(state.settingsDirty&&tab!==state.settingsTab){if(!confirm('Bạn có thay đổi chưa lưu. Bỏ thay đổi để chuyển nhóm?'))return;state.settingsDirty=false;}state.settingsTab=tab;const ready=!!state.settings&&state.settings.facilityId===(state.settingsFacility||state.facilityId);$('settingsNotLoaded').classList.toggle('hidden',ready);$('settingsData').classList.toggle('hidden',!ready);const target={general:'settingsGeneral',schedule:'settingsSchedule',eligibility:'settingsEligibility',notification:'settingsNotification',guidelines:'settingsGuidelines',rules:'settingsRules',qr:'settingsQr'}[tab]||'settingsGeneral';showOnly(['settingsGeneral','settingsSchedule','settingsEligibility','settingsNotification','settingsGuidelines','settingsRules','settingsQr'],target);$$('[data-settings-tab]').forEach(b=>b.classList.toggle('active',b.dataset.settingsTab===tab));$$('[data-settings-mobile]').forEach(b=>b.classList.toggle('active',b.dataset.settingsMobile===tab));if(tab==='qr'&&ready)renderRegistrationQr().catch(()=>{});}
-    function fillSettings(){const s=state.settings;if(!s)return;const g=s.general.data||{};$('cfgLocation').value=g.location||'';$('cfgSupportPhone').value=g.supportPhone||'';$('cfgWorkingHours').value=g.workingHours||'';const sc=s.schedule.data||{};$('cfgMaxMonths').value=sc.maxAdvanceMonths||1;$('cfgExcludeWeekends').checked=sc.excludeWeekends!==false;$('cfgExcludedDates').value=(sc.excludedDates||[]).join('\n');$('cfgSlots').innerHTML=(sc.slots||[]).map((x,i)=>`<div class="slot-settings" data-cfg-slot="${i}"><div><b>${esc(x.startTime)}–${esc(x.endTime)}</b><div class="subtle">${esc(x.id)}</div></div><div class="field"><label>Sức chứa</label><input class="input" type="number" min="0" data-slot-cap value="${esc(x.capacity)}"></div><label><input type="checkbox" data-slot-enabled ${x.enabled!==false?'checked':''}> Hoạt động</label><div></div></div>`).join('');const e=s.eligibility.data||{};$('cfgBloodMinAge').value=e.blood?.minAge||18;$('cfgBloodMaxAge').value=e.blood?.maxAge||60;$('cfgBloodMaleWeight').value=e.blood?.minWeightMale||45;$('cfgBloodFemaleWeight').value=e.blood?.minWeightFemale||42;$('cfgPlateletMinAge').value=e.platelet?.minAge||18;$('cfgPlateletMaxAge').value=e.platelet?.maxAge||60;$('cfgPlateletWeight').value=e.platelet?.minWeight||50;$('saveEligibilityBtn').disabled=!s.canEditEligibility;const n=s.notification.data||{};$('cfgRetentionDays').value=n.retentionDays||30;$('cfgCleanupHours').value=n.cleanupIntervalHours||24;$('cfgNotifyNew').checked=n.notifyNewRegistration!==false;$('cfgNotifyReschedule').checked=n.notifyReschedule!==false;$('cfgNotifyCancel').checked=n.notifyCancellation!==false;$('cfgNotifyOrg').checked=n.notifyOrganizationRegistration!==false;const gl=s.guidelines.data?.sections||[];$('guidelineEditors').innerHTML=gl.map((x,i)=>`<div class="card" data-guide="${i}" style="box-shadow:none;margin-bottom:10px"><div class="field"><label>Tiêu đề</label><input class="input" data-guide-title value="${esc(x.title)}"></div><div class="field" style="margin-top:8px"><label>Nội dung (mỗi ý một dòng)</label><textarea class="textarea" data-guide-items>${esc((x.items||[]).join('\n'))}</textarea></div></div>`).join('')}
+    function fillSettings(){const s=state.settings;if(!s)return;const g=s.general.data||{};$('cfgLocation').value=g.location||'';$('cfgSupportPhone').value=g.supportPhone||'';$('cfgWorkingHours').value=g.workingHours||'';const sc=s.schedule.data||{};$('cfgMaxMonths').value=sc.maxAdvanceMonths||1;$('cfgExcludeWeekends').checked=sc.excludeWeekends!==false;$('cfgExcludedDates').value=(sc.excludedDates||[]).join('\n');$('cfgSlots').innerHTML=(sc.slots||[]).map((x,i)=>`<div class="slot-settings" data-cfg-slot="${i}"><div><b>${esc(x.startTime)}–${esc(x.endTime)}</b><div class="subtle">${esc(x.id)}</div></div><div class="field"><label>Sức chứa</label><input class="input" type="number" min="0" data-slot-cap value="${esc(x.capacity)}"></div><label><input type="checkbox" data-slot-enabled ${x.enabled!==false?'checked':''}> Hoạt động</label><div></div></div>`).join('');const e=s.eligibility.data||{};$('cfgBloodMinAge').value=DONATION_LAW.minAge;$('cfgBloodMaxAge').value=DONATION_LAW.maxAge;$('cfgBloodMaleWeight').value=DONATION_LAW.bloodMaleKg;$('cfgBloodFemaleWeight').value=DONATION_LAW.bloodFemaleKg;$('cfgPlateletMinAge').value=DONATION_LAW.minAge;$('cfgPlateletMaxAge').value=DONATION_LAW.maxAge;$('cfgPlateletWeight').value=DONATION_LAW.plateletKg;$('saveEligibilityBtn').disabled=!s.canEditEligibility;const n=s.notification.data||{};$('cfgRetentionDays').value=n.retentionDays||30;$('cfgCleanupHours').value=n.cleanupIntervalHours||24;$('cfgNotifyNew').checked=n.notifyNewRegistration!==false;$('cfgNotifyReschedule').checked=n.notifyReschedule!==false;$('cfgNotifyCancel').checked=n.notifyCancellation!==false;$('cfgNotifyOrg').checked=n.notifyOrganizationRegistration!==false;const gl=s.guidelines.data?.sections||[];$('guidelineEditors').innerHTML=gl.map((x,i)=>`<div class="card" data-guide="${i}" style="box-shadow:none;margin-bottom:10px"><div class="field"><label>Tiêu đề</label><input class="input" data-guide-title value="${esc(x.title)}"></div><div class="field" style="margin-top:8px"><label>Nội dung (mỗi ý một dòng)</label><textarea class="textarea" data-guide-items>${esc((x.items||[]).join('\n'))}</textarea></div></div>`).join('')}
     async function saveConfig(type){if(!state.settings)return;let payload;if(type==='GENERAL'){payload={...state.settings.general.data,location:$('cfgLocation').value.trim(),supportPhone:$('cfgSupportPhone').value.trim(),workingHours:$('cfgWorkingHours').value.trim()}}else if(type==='DONATION_SCHEDULE'){const base=state.settings.schedule.data;payload={maxAdvanceMonths:Number($('cfgMaxMonths').value||1),excludeWeekends:$('cfgExcludeWeekends').checked,excludedDates:$('cfgExcludedDates').value.split(/\r?\n|,/).map(x=>x.trim()).filter(Boolean),slots:(base.slots||[]).map((s,i)=>({...s,capacity:Number($$('[data-slot-cap]')[i]?.value||0),enabled:!!$$('[data-slot-enabled]')[i]?.checked}))}}else if(type==='DONATION_ELIGIBILITY'){payload = { types:state.settings.eligibility.data.types||{},enabledDonationTypes:$$('[data-enabled-donation]').filter(x=>x.checked).map(x=>x.value), blood: { minAge:Number($('cfgBloodMinAge').value),maxAge:Number($('cfgBloodMaxAge').value),minWeightMale:Number($('cfgBloodMaleWeight').value),minWeightFemale:Number($('cfgBloodFemaleWeight').value)},platelet:{minAge:Number($('cfgPlateletMinAge').value),maxAge:Number($('cfgPlateletMaxAge').value),minWeight:Number($('cfgPlateletWeight').value)}}}else if(type==='NOTIFICATION_CONFIG'){payload={retentionDays:Number($('cfgRetentionDays').value),cleanupIntervalHours:Number($('cfgCleanupHours').value),notifyNewRegistration:$('cfgNotifyNew').checked,notifyReschedule:$('cfgNotifyReschedule').checked,notifyCancellation:$('cfgNotifyCancel').checked,notifyOrganizationRegistration:$('cfgNotifyOrg').checked}}else{const base=state.settings.guidelines.data;payload={sections:$$('[data-guide]').map((el,i)=>({id:base.sections?.[i]?.id||`SEC_${i+1}`,title:el.querySelector('[data-guide-title]').value.trim(),items:el.querySelector('[data-guide-items]').value.split(/\r?\n/).map(x=>x.trim()).filter(Boolean)}))}}try{const saved=await api('settings_save',{token:state.staffToken,facilityId:state.settingsFacility||state.facilityId,type,payload});const section={GENERAL:'general',DONATION_SCHEDULE:'schedule',DONATION_ELIGIBILITY:'eligibility',NOTIFICATION_CONFIG:'notification',GUIDELINES:'guidelines'}[type];if(section)state.settings[section]=saved;state.settingsDirty=false;toast('Đã lưu cấu hình.');}catch(e){toast(e.message)}}
 
 
@@ -758,7 +820,7 @@
       state.facilities=cfg.allFacilities;state.donationTypesByFacility=cfg.donationTypesByFacility||{};
       state.schedulePreview=cfg.schedule||null;state.publicConfigReady=true;
       renderFacilityChoices();
-      if(state.entryMode==='donor'||state.staffArea==='register')prefetchQuestionsPublic();
+      prefetchQuestionsPublic();
     }
     function renderFacilityChoices(){
       // The login list is a fixed UI choice, but the server is authoritative for access.
@@ -816,7 +878,7 @@
       $('ruleTypesBody').innerHTML=rows.length?rows.map((r,i)=>`<tr data-rule-row="${i}">
         <td><input class="input rule-code" aria-label="Mã loại hiến" maxlength="40" data-rule-code value="${esc(r.id)}" ${r.permanent?'readonly':disabled}></td>
         <td><input class="input rule-name" aria-label="Tên loại hiến" maxlength="100" data-rule-name value="${esc(r.name)}" ${disabled}></td>
-        <td><input class="input rule-number" aria-label="Khoảng cách hiến tháng" type="number" min="1" max="120" step="1" data-rule-months value="${esc(r.months)}" ${disabled}></td>
+        <td>${DONATION_LAW.minDays[r.id]?`<span>${DONATION_LAW.minDays[r.id]} ngày (theo TT26)</span><input type="hidden" data-rule-months value="0">`:`<input class="input rule-number" aria-label="Khoảng cách hiến tháng" type="number" min="1" max="120" step="1" data-rule-months value="${esc(r.months)}" ${disabled}> <small>tháng</small>`}</td>
         <td>${!r.permanent&&edit?`<button type="button" class="btn btn-text" data-remove-rule="${i}">Xóa</button>`:'—'}</td></tr>`).join(''):
         '<tr><td colspan="4" class="empty">Chưa cấu hình loại hiến.</td></tr>';
       const other=rows.map((r,i)=>({...r,index:i})).filter(r=>!['BLOOD','PLATELET'].includes(r.id)||!r.permanent);
@@ -887,8 +949,8 @@
           const id=r.id.toUpperCase().trim(),name=r.name.trim(),months=Number(r.months);
           if(!/^[A-Z][A-Z0-9_]{0,39}$/.test(id)||!name)throw new Error('Mã loại hiến phải là chữ in hoa/số/gạch dưới và phải có tên hiển thị.');
           if(seen.has(id))throw new Error('Mã loại hiến bị trùng: '+id);seen.add(id);
-          if(!Number.isInteger(months)||months<1||months>120)throw new Error('Khoảng cách hiến của '+name+' phải là số tháng từ 1 đến 120.');
-          donationTypes.push({id,name});intervals[id]=months;
+          if(!DONATION_LAW.minDays[id]&&(!Number.isInteger(months)||months<1||months>120))throw new Error('Khoảng cách loại hiến bổ sung '+name+' phải là số tháng từ 1 đến 120.');
+          donationTypes.push({id,name});intervals[id]=DONATION_LAW.minDays[id]?0:months;
           if(!['BLOOD','PLATELET'].includes(id)){
             const minAge=Number(r.minAge),maxAge=Number(r.maxAge),minWeight=Number(r.minWeight);
             if(!Number.isInteger(minAge)||!Number.isInteger(maxAge)||minAge<1||maxAge<minAge||maxAge>120||!Number.isFinite(minWeight)||minWeight<=0||minWeight>300)
@@ -930,7 +992,7 @@
     async function markAllRead(){try{await api('notifications_markRead',{token:state.staffToken,all:true});state.notifications.forEach(n=>n.read=true);renderNotificationList();setBellBadge(0)}catch(e){toast(e.message)}}
     function onForegroundNotification(p){const title=p.title||p.notification?.title||'Có thông tin mới';const body=p.body||p.notification?.body||'';toast(`${title}${body?': '+body:''}`,'Xem',()=>{switchStaffArea('management');setStaffTab('appointments');$('apptKeyword').value=p.registrationId||'';loadAppointments()});refreshNotificationBadge()}
 
-    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=26.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
+    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=27.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
     function getDeviceId(){let id=localStorage.getItem(PUSH_DEVICE_KEY);if(!id){id='DEV_'+crypto.randomUUID();localStorage.setItem(PUSH_DEVICE_KEY,id)}return id}
     async function initPushForeground(){if(!state.staffToken)return;try{state.pushConfig=await api('push_getClientConfig',{token:state.staffToken});if(!state.pushConfig.enabled)return;const [{initializeApp},{getMessaging,onMessage}]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js')]);const app=initializeApp(state.pushConfig.firebaseConfig);state.pushMessaging=getMessaging(app);onMessage(state.pushMessaging,payload=>onForegroundNotification({title:payload.notification?.title||payload.data?.title,body:payload.notification?.body||payload.data?.body,...payload.data}));await refreshPushButton()}catch(e){}}
     async function refreshPushButton(){try{const d=await api('push_getStatus',{token:state.staffToken,deviceId:getDeviceId()});$('pushToggleBtn').textContent=d.registered?'Tắt thông báo':'Bật thông báo';$('pushTestBtn').classList.toggle('hidden',!d.registered)}catch(e){}}
