@@ -211,6 +211,17 @@
     #settingsRules .rules-table-wrap .rule-code{min-width:145px}
     #settingsRules .rules-table-wrap .rule-name{min-width:210px}
     #settingsRules .rules-table-wrap .rule-number{min-width:130px}
+    /* 28.5: hiển thị đủ điều kiện một lần, chỉ đổi màu chữ điều kiện không đạt. */
+    #eligibilityModal .modal{width:min(520px,100%);padding:20px}
+    #eligibilityModal .eligibility-intro{text-align:center;margin:10px 0 15px;line-height:1.5}
+    #eligibilityModal .eligibility-conditions{margin:10px 0 0;padding-left:22px;line-height:1.55}
+    #eligibilityModal .eligibility-conditions li{margin:7px 0;color:#202124;font-weight:400}
+    #eligibilityModal .eligibility-conditions li.is-failed{color:#b91c1c}
+    #eligibilityModal .eligibility-conditions li.is-pending{color:#6b7280}
+    #eligibilityModal .eligibility-conditions .condition-note{display:block;font-size:.92em;line-height:1.4;margin-top:2px}
+    #eligibilityModal .actions{justify-content:center}
+    #eligibilityModal #eligibilityOk{max-width:100%;white-space:normal;text-align:center}
+    @media(max-width:480px){#eligibilityModal .modal{padding:17px 16px}#eligibilityModal .eligibility-conditions{padding-left:19px}}
   </style>
 </head>
 <body>
@@ -246,7 +257,7 @@
         <div class="field" style="margin-top:14px"><label for="employeeCode" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M5.5 16c.6-1.7 2-2.5 3.5-2.5s2.9.8 3.5 2.5M15 9h4M15 13h4"/></svg><span>Mã nhân viên</span></label><input id="employeeCode" class="input" autocomplete="username" required></div>
         <div class="field" style="margin-top:14px"><label for="employeePassword" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>Mật khẩu</span></label><input id="employeePassword" class="input" type="password" autocomplete="current-password" required></div>
         <button id="loginBtn" class="btn btn-primary" type="submit" style="width:100%;margin-top:20px"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg><span>ĐĂNG NHẬP</span></button>
-        <div class="version">Phiên bản 27.5</div>
+        <div class="version">Phiên bản 28.5</div>
       </form>
     </section>
 
@@ -445,7 +456,7 @@
 
   <div id="notificationPanel" class="notification-panel hidden"><div class="notification-head"><span>Thông báo</span><div><button id="markAllReadBtn" class="btn btn-text">Đọc tất cả</button><button id="notificationClose" class="icon-btn" style="color:#5f6368"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div></div><div id="notificationList" class="notification-list"></div></div>
 
-  <div id="eligibilityModal" class="modal-backdrop hidden"><div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="eligibilityTitle"><h3 id="eligibilityTitle" style="text-align:center;color:#b91c1c">BẠN CHƯA ĐỦ ĐIỀU KIỆN THAM GIA HIẾN MÁU</h3><div id="eligibilityBody"></div><p style="text-align:center;font-weight:700;margin:18px 0 8px">XIN TRÂN TRỌNG CẢM ƠN!</p><div class="actions"><button id="eligibilityOk" type="button" class="btn btn-primary">QUAY LẠI TRANG ĐĂNG KÝ</button></div></div></div>
+  <div id="eligibilityModal" class="modal-backdrop hidden"><div class="modal" role="alertdialog" aria-modal="true" aria-labelledby="eligibilityTitle"><h3 id="eligibilityTitle" style="text-align:center;color:#b91c1c">CHƯA ĐỦ ĐIỀU KIỆN HIẾN MÁU</h3><div id="eligibilityBody"></div><p style="text-align:center;font-weight:700;margin:16px 0 6px">XIN TRÂN TRỌNG CẢM ƠN!</p><div class="actions"><button id="eligibilityOk" type="button" class="btn btn-primary">QUAY LẠI TRANG ĐĂNG KÝ</button></div></div></div>
   <div id="successModal" class="modal-backdrop hidden"><div class="modal"><h3>Đăng ký thành công</h3><div id="successInfo"></div><div id="qrBox" style="display:grid;place-items:center;margin:16px 0"></div><div class="actions"><button id="successClose" class="btn btn-primary">Đóng</button></div></div></div>
   <div id="questionModal" class="modal-backdrop hidden"><div class="modal"><h3 id="questionModalTitle">Câu hỏi</h3><div class="settings-grid"><div class="field"><label>Loại hiến</label><select id="qDonationType" class="select"><option value="ALL">Tất cả</option><option value="BLOOD">Hiến máu</option><option value="PLATELET">Hiến tiểu cầu</option></select></div><div class="field"><label>Loại câu trả lời</label><select id="qType" class="select"><option value="YES_NO">Có/Không</option><option value="TEXT">Văn bản</option></select></div><div class="field"><label>Nhóm</label><input id="qGroup" class="input"></div><div class="field"><label>Thứ tự</label><input id="qSort" class="input" type="number"></div><div class="field span6"><label>Nội dung</label><textarea id="qText" class="textarea"></textarea></div><label><input id="qRequired" type="checkbox"> Bắt buộc</label><div class="field"><label>Mức cảnh báo</label><select id="qFlagLevel" class="select"><option value="NONE">Không</option><option value="REVIEW">Cần xem xét</option><option value="HIGH">Cảnh báo cao</option></select></div></div><div class="actions"><button id="questionCancel" class="btn btn-secondary">Hủy</button><button id="questionSave" class="btn btn-primary">Lưu</button></div></div></div>
   <div id="installHelpModal" class="modal-backdrop hidden"><div class="modal"><h3>Cài ứng dụng</h3><p id="installHelpText"></p><div class="actions"><button id="installHelpClose" class="btn btn-primary">Đã hiểu</button></div></div></div>
@@ -472,7 +483,7 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='27.5';
+    const VERSION='28.5';
     const WEB_APP_URL='https://script.google.com/macros/s/AKfycbw8uT0HvqtK3cv8hLVgqJv21VOaP5fY0Rno_lzDP0RYSqEZwS9zMIRV0LxmksTn9sRe/exec';
     const STAFF_TOKEN_KEY='bm_donation_staff_token';
     const PUSH_DEVICE_KEY='bm_donation_push_device_id';
@@ -631,7 +642,7 @@
       }catch(e){localStorage.removeItem(STAFF_TOKEN_KEY);state.staffToken='';}}
     }
     function showLogin(){document.body.classList.remove('public-register-active');$('registrationProgress').classList.add('hidden');$('loginShell').classList.remove('hidden');$('publicShell').classList.add('hidden');$('staffShell').classList.add('hidden');$('questionsShell').classList.add('hidden');$('settingsShell').classList.add('hidden');$('menuBtn').classList.add('hidden');$('bellWrap').classList.add('hidden');$('staffUser').classList.add('hidden');$('headerLogout').classList.add('hidden');document.body.classList.remove('staff-session');$('headerTitle').textContent='BỆNH VIỆN BẠCH MAI'}
-    async function login(e){e.preventDefault();if(!$('loginFacility').value){toast('Vui lòng chọn cơ sở đang hoạt động. Nếu danh sách trống, liên hệ quản trị để bật cơ sở.');return;}const btn=$('loginBtn');setLoading(btn,true,'Đang đăng nhập');try{const d=await api('account_login',{employeeCode:$('employeeCode').value.trim(),password:$('employeePassword').value,facilityId:$('loginFacility').value});state.staffToken=d.token;state.staffUser=d.user;state.facilityId=d.user.facilityId;clearStaffViews();renderReportFacilities();localStorage.setItem(STAFF_TOKEN_KEY,d.token);localStorage.setItem(LAST_FACILITY_KEY,d.user.facilityId);await enterStaff();toast('Đăng nhập thành công.');}catch(err){toast(err.message);}finally{setLoading(btn,false);}}
+    async function login(e){e.preventDefault();if(!$('loginFacility').value){toast('Vui lòng chọn cơ sở đang hoạt động. Nếu danh sách trống, liên hệ quản trị để bật cơ sở.');return;}const btn=$('loginBtn');setLoading(btn,true,'Đang đăng nhập');try{const d=await api('account_login',{employeeCode:$('employeeCode').value.trim(),password:$('employeePassword').value,facilityId:$('loginFacility').value});state.staffToken=d.token;state.staffUser=d.user;state.facilityId=d.user.facilityId;clearStaffViews();renderReportFacilities();localStorage.setItem(STAFF_TOKEN_KEY,d.token);localStorage.setItem(LAST_FACILITY_KEY,d.user.facilityId);await enterStaff();}catch(err){toast(err.message);}finally{setLoading(btn,false);}}
     function clearStaffViews(){
       state.settings=null;state.settingsDirty=false;state.reportItems=[];state.reportFilterKey='';state.appointmentItems=[];state.notifications=[];state.notificationsLoaded=false;
       mountDataTable('appointmentsTable','appointments','Nhấn XEM DS để tải dữ liệu.');
@@ -666,16 +677,48 @@
        const e=new Error('Điều kiện chưa đáp ứng: '+(badAge?'Độ tuổi phải từ đủ 18 đến 60 tuổi vào ngày hiến. ':'')+(weight<minWeight?'Cân nặng tối thiểu '+minWeight+' kg.':''));e.code='ELIGIBILITY_FAILED';throw e;
      }
      return{fullName:full,birthDate:birth,gender,weightKg:weight,address,citizenId:citizen,phone,email,previousDonationMode,lastDonationDate};}
-    function showEligibilityMessage(message){
-      const raw=String(message||'');const lines=raw.split(/\n+/).map(s=>s.trim()).filter(Boolean);
-      const details=lines.filter(s=>!/^BẠN CHƯA ĐỦ|^XIN (TRÂN TRỌNG|CHÂN THÀNH)|^Vui lòng kiểm tra lại|^Các điều kiện|^Điều kiện:|^Xin lỗi/i.test(s));
-      const defaults=state.donationType==='PLATELET'?['Tuổi từ đủ 18 đến 60 tuổi.','Cân nặng tối thiểu 50 kg.','Khoảng cách tối thiểu 14 ngày sau lần hiến tiểu cầu gần nhất.']:['Tuổi từ đủ 18 đến 60 tuổi.','Cân nặng nam từ 45 kg, nữ từ 42 kg.','Khoảng cách tối thiểu 84 ngày sau lần hiến máu toàn phần gần nhất.'];
-      const bullets=details.filter(s=>s.startsWith('•')).map(s=>s.slice(1).trim());
-      const reasons=details.filter(s=>!s.startsWith('•'));
-      $('eligibilityBody').innerHTML='<p style="text-align:center">Vui lòng kiểm tra lại thông tin hoặc quay lại khi bạn đủ các điều kiện.</p>'+
-        (reasons.length?'<p style="color:#b91c1c;font-weight:600">'+reasons.map(esc).join(' ')+'</p>':'')+
-        '<strong>Các điều kiện đăng ký hiến máu:</strong><ul style="padding-left:22px">'+(bullets.length?bullets:defaults).map(s=>'<li style="margin:6px 0">'+esc(s)+'</li>').join('')+'</ul>'+
-        '<p class="subtle">Không có kết luận đủ điều kiện hiến chính thức nếu chưa được khám sàng lọc.</p>';
+    function showEligibilityMessage(message,code){
+      // Phân loại bằng dữ liệu hiện có + mã lỗi; không suy đoán kết luận y tế từ chuỗi thông báo.
+      const isBlood=state.donationType==='BLOOD',isPlatelet=state.donationType==='PLATELET';
+      const selectedDay=state.regStep>=2?$('appointmentDate').value:'';
+      const birth=birthIso(),today=todayIso(),end=state.schedulePreview?.endDate||today;
+      let ageStatus='pending';
+      if(birth){
+        if(selectedDay){const age=ageOn(birth,selectedDay);ageStatus=age<DONATION_LAW.minAge||age>DONATION_LAW.maxAge?'failed':'passed';}
+        else{
+          const ageNow=ageOn(birth,today),ageAtEnd=ageOn(birth,end);
+          if(ageNow>DONATION_LAW.maxAge||ageAtEnd<DONATION_LAW.minAge)ageStatus='failed';
+          else if(ageNow>=DONATION_LAW.minAge&&ageAtEnd<=DONATION_LAW.maxAge)ageStatus='passed';
+        }
+      }
+      const gender=$('gender').value,weight=Number($('weightKg').value);
+      let weightStatus='pending',minimum=null;
+      if(isPlatelet)minimum=DONATION_LAW.plateletKg;
+      else if(isBlood&&gender)minimum=gender==='FEMALE'?DONATION_LAW.bloodFemaleKg:DONATION_LAW.bloodMaleKg;
+      if(minimum!==null&&Number.isFinite(weight)&&weight>0)weightStatus=weight<minimum?'failed':'passed';
+
+      const rules=[];
+      if(isBlood||isPlatelet){
+        rules.push({label:'Độ tuổi: Từ đủ 18 đến 60 tuổi vào ngày hiến.',status:ageStatus});
+        rules.push({label:isPlatelet?'Cân nặng: Tối thiểu 50 kg.':gender==='OTHER'?'Cân nặng: Tối thiểu 45 kg theo ngưỡng áp dụng.':'Cân nặng: Nam từ 45 kg, nữ từ 42 kg.',status:weightStatus});
+        rules.push({label:isPlatelet?'Khoảng cách hiến: Tối thiểu 14 ngày giữa hai lần hiến tiểu cầu gạn tách liên tiếp.':'Khoảng cách hiến: Tối thiểu 84 ngày giữa hai lần hiến máu toàn phần liên tiếp.',status:code==='DONATION_INTERVAL'?'failed':'pending'});
+      }else{
+        // Loại hiến mở rộng: dùng tiêu chí do backend công bố, không tự áp ngưỡng máu toàn phần.
+        const criteria=String(message||'').split(/\n/).filter(t=>/^\s*•/.test(t)).map(t=>t.replace(/^\s*•\s*/,''));
+        rules.push(...criteria.map(label=>({label,status:'pending'})));
+        if(!criteria.length)rules.push({label:'Tuổi, cân nặng và khoảng cách theo quy định áp dụng cho loại hiến này.',status:code==='ELIGIBILITY_FAILED'?'failed':'pending'});
+        if(code==='DONATION_INTERVAL'&&!rules.some(r=>/khoảng cách/i.test(r.label)))rules.push({label:'Khoảng cách giữa các lần hiến phải đáp ứng quy định.',status:'failed'});
+      }
+      rules.push({label:'Không có quyết định tạm hoãn hoặc không được đăng ký hiến đang hiệu lực.',status:code==='DONATION_RESTRICTION'?'failed':'pending'});
+      // Kết luận backend về ngày sớm nhất hoặc hạn chế được gắn tại chính điều kiện liên quan.
+      const reason=String(message||'').trim();
+      const target=code==='DONATION_INTERVAL'?rules.find(r=>/khoảng cách/i.test(r.label)):
+                   code==='DONATION_RESTRICTION'?rules[rules.length-1]:null;
+      if(target){target.status='failed';target.note=reason;}
+      $('eligibilityBody').innerHTML='<p class="eligibility-intro">Vui lòng kiểm tra lại thông tin hoặc quay lại khi bạn đáp ứng đủ điều kiện.</p>'+
+        '<strong>Các điều kiện đăng ký hiến máu:</strong><ul class="eligibility-conditions">'+
+        rules.map(rule=>'<li class="'+(rule.status==='failed'?'is-failed':rule.status==='pending'?'is-pending':'')+'">'+esc(rule.label)+
+          (rule.note?'<span class="condition-note">'+esc(rule.note)+'</span>':'')+'</li>').join('')+'</ul>';
       $('eligibilityModal').classList.remove('hidden');$('eligibilityOk').focus();
     }
     function validateOrgStep1(){const organizationName=$('organizationName').value.trim(),contactName=$('contactName').value.trim(),contactPhone=digits($('contactPhone').value,10),contactCitizenId=digits($('contactCitizenId').value,12),organizationAddress=$('organizationAddress').value.trim(),hotline=$('organizationHotline').value.trim(),participantCount=Number($('participantCount').value);if(!organizationName||!contactName||!organizationAddress||contactCitizenId.length!==12||!/^0\d{9}$/.test(contactPhone)||!Number.isInteger(participantCount)||participantCount<1)throw new Error('Vui lòng nhập đầy đủ thông tin người đăng ký, tổ chức và số lượng dự kiến.');return{organizationName,contactName,contactPhone,contactCitizenId,organizationAddress,hotline,participantCount};}
@@ -688,7 +731,7 @@
         state.publicToken=d.publicToken;state.schedule=d.schedule||state.schedulePreview;state.facilityId=f;setupScheduleUi();return true;
       }catch(err){if(err.code==='CAPTCHA_REQUIRED'){await ensureTurnstileUi();return false;}throw err;}
     }
-    async function regNext(){const btn=$('regNextBtn');if(btn.dataset.busy==='1')return;setLoading(btn,true);try{const isInd=state.regMode==='INDIVIDUAL',final=isInd?4:3;if(state.regStep===1){const p=isInd?validateIndividualStep1():validateOrgStep1();if(!state.publicToken&&!(await startPublicSession(p)))return;state.regStep=2;renderRegStep();if(isInd)prefetchQuestionsPublic();await ensureSlotsLoaded();return}if(state.regStep===2){if(!$('appointmentDate').value)throw new Error('Vui lòng chọn ngày.');if(!state.selectedSlot)throw new Error('Vui lòng chọn khung giờ.');if(isInd){await api('public_checkDonationEligibility',{publicToken:state.publicToken,appointmentDate:$('appointmentDate').value,...validateIndividualStep1()});state.regStep=3;renderRegStep();await loadQuestionsPublic()}else{state.regStep=3;renderRegStep();renderReview()}return}if(isInd&&state.regStep===3){validateAnswers();state.regStep=4;renderRegStep();renderReview();return}if(state.regStep===final){if(isInd&&!$('consentAccepted').checked)throw new Error('Vui lòng xác nhận thông tin.');await submitRegistration();}}catch(err){if(['ELIGIBILITY_FAILED','DONATION_INTERVAL','DONATION_RESTRICTION'].includes(err.code))showEligibilityMessage(err.message);else if(!err.silent)toast(err.message)}finally{setLoading(btn,false)}}
+    async function regNext(){const btn=$('regNextBtn');if(btn.dataset.busy==='1')return;setLoading(btn,true);try{const isInd=state.regMode==='INDIVIDUAL',final=isInd?4:3;if(state.regStep===1){const p=isInd?validateIndividualStep1():validateOrgStep1();if(!state.publicToken&&!(await startPublicSession(p)))return;state.regStep=2;renderRegStep();if(isInd)prefetchQuestionsPublic();await ensureSlotsLoaded();return}if(state.regStep===2){if(!$('appointmentDate').value)throw new Error('Vui lòng chọn ngày.');if(!state.selectedSlot)throw new Error('Vui lòng chọn khung giờ.');if(isInd){await api('public_checkDonationEligibility',{publicToken:state.publicToken,appointmentDate:$('appointmentDate').value,...validateIndividualStep1()});state.regStep=3;renderRegStep();await loadQuestionsPublic()}else{state.regStep=3;renderRegStep();renderReview()}return}if(isInd&&state.regStep===3){validateAnswers();state.regStep=4;renderRegStep();renderReview();return}if(state.regStep===final){if(isInd&&!$('consentAccepted').checked)throw new Error('Vui lòng xác nhận thông tin.');await submitRegistration();}}catch(err){if(['ELIGIBILITY_FAILED','DONATION_INTERVAL','DONATION_RESTRICTION'].includes(err.code))showEligibilityMessage(err.message,err.code);else if(!err.silent)toast(err.message)}finally{setLoading(btn,false)}}
     function regBack(){if(state.regStep>1){state.regStep--;renderRegStep();if((state.regMode==='INDIVIDUAL'&&state.regStep===4)||(state.regMode==='ORGANIZATION'&&state.regStep===3))renderReview()}}
     function setupScheduleUi(){if(!state.schedule)return;$('appointmentDate').min=state.schedule.startDate;$('appointmentDate').max=state.schedule.endDate;if(!$('appointmentDate').value||$('appointmentDate').value<state.schedule.startDate||$('appointmentDate').value>state.schedule.endDate)$('appointmentDate').value=nextValidDate(state.schedule);}
     function nextValidDate(s){let d=new Date(`${s.startDate}T00:00:00`),end=new Date(`${s.endDate}T00:00:00`),excluded=new Set(s.excludedDates||[]);while(d<=end){const iso=`${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`;const weekend=d.getDay()===0||d.getDay()===6;if(!(s.excludeWeekends&&weekend)&&!excluded.has(iso))return iso;d.setDate(d.getDate()+1)}return s.startDate}
@@ -992,7 +1035,7 @@
     async function markAllRead(){try{await api('notifications_markRead',{token:state.staffToken,all:true});state.notifications.forEach(n=>n.read=true);renderNotificationList();setBellBadge(0)}catch(e){toast(e.message)}}
     function onForegroundNotification(p){const title=p.title||p.notification?.title||'Có thông tin mới';const body=p.body||p.notification?.body||'';toast(`${title}${body?': '+body:''}`,'Xem',()=>{switchStaffArea('management');setStaffTab('appointments');$('apptKeyword').value=p.registrationId||'';loadAppointments()});refreshNotificationBadge()}
 
-    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=27.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
+    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=28.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
     function getDeviceId(){let id=localStorage.getItem(PUSH_DEVICE_KEY);if(!id){id='DEV_'+crypto.randomUUID();localStorage.setItem(PUSH_DEVICE_KEY,id)}return id}
     async function initPushForeground(){if(!state.staffToken)return;try{state.pushConfig=await api('push_getClientConfig',{token:state.staffToken});if(!state.pushConfig.enabled)return;const [{initializeApp},{getMessaging,onMessage}]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js')]);const app=initializeApp(state.pushConfig.firebaseConfig);state.pushMessaging=getMessaging(app);onMessage(state.pushMessaging,payload=>onForegroundNotification({title:payload.notification?.title||payload.data?.title,body:payload.notification?.body||payload.data?.body,...payload.data}));await refreshPushButton()}catch(e){}}
     async function refreshPushButton(){try{const d=await api('push_getStatus',{token:state.staffToken,deviceId:getDeviceId()});$('pushToggleBtn').textContent=d.registered?'Tắt thông báo':'Bật thông báo';$('pushTestBtn').classList.toggle('hidden',!d.registered)}catch(e){}}
