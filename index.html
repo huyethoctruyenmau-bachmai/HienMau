@@ -257,7 +257,7 @@
         <div class="field" style="margin-top:14px"><label for="employeeCode" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M5.5 16c.6-1.7 2-2.5 3.5-2.5s2.9.8 3.5 2.5M15 9h4M15 13h4"/></svg><span>Mã nhân viên</span></label><input id="employeeCode" class="input" autocomplete="username" required></div>
         <div class="field" style="margin-top:14px"><label for="employeePassword" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>Mật khẩu</span></label><input id="employeePassword" class="input" type="password" autocomplete="current-password" required></div>
         <button id="loginBtn" class="btn btn-primary" type="submit" style="width:100%;margin-top:20px"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg><span>ĐĂNG NHẬP</span></button>
-        <div class="version">Phiên bản 30.5</div>
+        <div class="version">Phiên bản 31.6</div>
       </form>
     </section>
 
@@ -483,7 +483,7 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='30.5';
+    const VERSION='31.6';
     const WEB_APP_URL='https://script.google.com/macros/s/AKfycbw8uT0HvqtK3cv8hLVgqJv21VOaP5fY0Rno_lzDP0RYSqEZwS9zMIRV0LxmksTn9sRe/exec';
     const STAFF_TOKEN_KEY='bm_donation_staff_token';
     const PUSH_DEVICE_KEY='bm_donation_push_device_id';
@@ -876,7 +876,23 @@
       $('directoryObject').value=mode;
       mountDataTable('directoryTable',mode==='donors'?'donors':'organizations','Nhấn XEM DS để tải dữ liệu.');
     }
-    async function loadDirectory(){if(!state.staffToken||state.directoryLoading)return;state.directoryLoading=true;try{const action=state.directoryMode==='donors'?'admin_listDonors':'admin_listOrganizations';const d=await api(action,{token:state.staffToken,keyword:$('directoryKeyword').value.trim()});renderDirectory(expectItems(d,action))}catch(e){toast(e.message);}finally{state.directoryLoading=false;}}
+    async function loadDirectory(){
+      if(!state.staffToken||state.directoryLoading)return;
+      const mode=state.directoryMode,kind=mode==='donors'?'donors':'organizations';
+      const action=mode==='donors'?'admin_listDonors':'admin_listOrganizations';
+      const keyword=$('directoryKeyword').value.trim();
+      state.directoryLoading=true;
+      setDataTableRows('directoryTable',kind,'','Đang tải danh sách...');
+      try{
+        const data=await api(action,{token:state.staffToken,keyword:keyword});
+        if(state.directoryMode!==mode||$('directoryKeyword').value.trim()!==keyword)return;
+        const items=expectItems(data,action);
+        renderDirectory(items);
+        if(!items.length)setDataTableRows('directoryTable',kind,'',keyword?'Không có kết quả phù hợp.':'Chưa có người hiến/tổ chức trong danh sách.');
+      }catch(error){
+        if(state.directoryMode===mode){setDataTableRows('directoryTable',kind,'','Lỗi tải danh sách: '+(error.message||'Không rõ nguyên nhân')+' — Vui lòng kiểm tra kết nối/backend và nhấn XEM DS lại.');}
+      }finally{state.directoryLoading=false;}
+    }
     function renderDirectory(items){
       const donors=state.directoryMode==='donors',kind=donors?'donors':'organizations';
       const rows=donors?items.map(i=>`<tr><td>${esc(i.fullName)}</td><td>${esc(viDate(i.birthDate))}</td><td>${esc(i.gender)}</td><td>${esc(i.citizenId)}</td><td>${esc(i.phone)}</td><td>${esc(i.email)}</td><td class="wrap">${esc(i.address)}</td></tr>`).join(''):
@@ -1088,7 +1104,7 @@
     async function markAllRead(){try{await api('notifications_markRead',{token:state.staffToken,all:true});state.notifications.forEach(n=>n.read=true);renderNotificationList();setBellBadge(0)}catch(e){toast(e.message)}}
     function onForegroundNotification(p){const title=p.title||p.notification?.title||'Có thông tin mới';const body=p.body||p.notification?.body||'';toast(`${title}${body?': '+body:''}`,'Xem',()=>{switchStaffArea('management');setStaffTab('appointments');$('apptKeyword').value=p.registrationId||'';loadAppointments()});refreshNotificationBadge()}
 
-    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=30.5',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
+    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=31.6',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
     function getDeviceId(){let id=localStorage.getItem(PUSH_DEVICE_KEY);if(!id){id='DEV_'+crypto.randomUUID();localStorage.setItem(PUSH_DEVICE_KEY,id)}return id}
     async function initPushForeground(){if(!state.staffToken)return;try{state.pushConfig=await api('push_getClientConfig',{token:state.staffToken});if(!state.pushConfig.enabled)return;const [{initializeApp},{getMessaging,onMessage}]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js')]);const app=initializeApp(state.pushConfig.firebaseConfig);state.pushMessaging=getMessaging(app);onMessage(state.pushMessaging,payload=>onForegroundNotification({title:payload.notification?.title||payload.data?.title,body:payload.notification?.body||payload.data?.body,...payload.data}));await refreshPushButton()}catch(e){}}
     async function refreshPushButton(){try{const d=await api('push_getStatus',{token:state.staffToken,deviceId:getDeviceId()});$('pushToggleBtn').textContent=d.registered?'Tắt thông báo':'Bật thông báo';$('pushTestBtn').classList.toggle('hidden',!d.registered)}catch(e){}}
