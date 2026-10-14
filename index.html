@@ -257,7 +257,7 @@
         <div class="field" style="margin-top:14px"><label for="employeeCode" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="1"/><circle cx="9" cy="10" r="2"/><path d="M5.5 16c.6-1.7 2-2.5 3.5-2.5s2.9.8 3.5 2.5M15 9h4M15 13h4"/></svg><span>Mã nhân viên</span></label><input id="employeeCode" class="input" autocomplete="username" required></div>
         <div class="field" style="margin-top:14px"><label for="employeePassword" class="login-field-label"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="10" width="16" height="11" rx="1"/><path d="M8 10V7a4 4 0 1 1 8 0v3M12 14v3"/></svg><span>Mật khẩu</span></label><input id="employeePassword" class="input" type="password" autocomplete="current-password" required></div>
         <button id="loginBtn" class="btn btn-primary" type="submit" style="width:100%;margin-top:20px"><svg viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 17l5-5-5-5M15 12H3M12 3h7a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-7"/></svg><span>ĐĂNG NHẬP</span></button>
-        <div class="version">Phiên bản 31.6</div>
+        <div class="version">Phiên bản 32.9</div>
       </form>
     </section>
 
@@ -483,7 +483,7 @@
   <script>
   (()=>{
     'use strict';
-    const VERSION='31.6';
+    const VERSION='32.9';
     const WEB_APP_URL='https://script.google.com/macros/s/AKfycbw8uT0HvqtK3cv8hLVgqJv21VOaP5fY0Rno_lzDP0RYSqEZwS9zMIRV0LxmksTn9sRe/exec';
     const STAFF_TOKEN_KEY='bm_donation_staff_token';
     const PUSH_DEVICE_KEY='bm_donation_push_device_id';
@@ -855,18 +855,43 @@
     }
     function renderAppointments(items){
       state.appointmentItems=items;
+      const arrivedStatuses=['CHECKED_IN','SCREENING','ELIGIBLE','IN_PROGRESS','COMPLETED','DEFERRED'];
       const rows=items.map(i=>{
         const who=i.donor?.fullName||i.organization?.organizationName||'',phone=i.donor?.phone||i.organization?.contactPhone||'';
         const overdue=i.overdue?'<span class="status-chip red">Quá hẹn – Chưa đến</span>':'';
+        const arrival=i.registrationMode==='INDIVIDUAL'
+          ? `<label style="display:inline-flex;align-items:center;gap:5px;white-space:nowrap;cursor:${i.status==='CONFIRMED'?'pointer':'default'}"><input type="checkbox" data-confirm-arrival="${esc(i.registrationId)}" aria-label="Xác nhận đã đến: ${esc(who)}" ${arrivedStatuses.includes(i.status)?'checked disabled':i.status==='CONFIRMED'?'':'disabled'}>Đã đến</label>`
+          : '';
         const actions=i.registrationMode==='ORGANIZATION'?`<button class="btn btn-secondary" data-org-result="${esc(i.registrationId)}">Tổng thực tế</button>`:
           i.status==='CONFIRMED'?`<button class="btn btn-secondary" data-contact="${esc(i.registrationId)}">Liên hệ</button>`:
           `<button class="btn btn-primary" data-result="${esc(i.registrationId)}">Kết quả</button>`;
-        return `<tr><td>${esc(viDate(i.appointmentDate))}</td><td>${esc(DONATION_LABEL[i.donationType]||i.donationType)}</td><td>${esc(who)}</td><td>${esc(phone)}</td><td>${overdue||esc(STATUS_LABEL[i.status]||i.status)}</td><td>${esc(i.code)}</td><td>${actions}</td></tr>`;
+        return `<tr><td>${esc(viDate(i.appointmentDate))}</td><td>${esc(DONATION_LABEL[i.donationType]||i.donationType)}</td><td>${esc(who)}</td><td>${esc(phone)}</td><td>${overdue||esc(STATUS_LABEL[i.status]||i.status)}</td><td>${esc(i.code)}</td><td><div style="display:flex;align-items:center;gap:12px">${arrival}${actions}</div></td></tr>`;
       }).join('');
       setDataTableRows('appointmentsTable','appointments',rows,'Không có lịch hẹn trong khoảng thời gian đã chọn.');
       $$('[data-result]').forEach(b=>b.onclick=()=>openResult(b.dataset.result));
       $$('[data-org-result]').forEach(b=>b.onclick=()=>openOrgResult(b.dataset.orgResult));
       $$('[data-contact]').forEach(b=>b.onclick=()=>contactOverdue(b.dataset.contact));
+      $$('[data-confirm-arrival]').forEach(b=>b.onchange=()=>confirmArrivalFromList(b));
+    }
+    async function confirmArrivalFromList(box){
+      box.checked=false; // Chỉ tích thật sau khi người dùng xác nhận VÀ backend ghi thành công.
+      if(state.arrivalPending)return;
+      const id=box.dataset.confirmArrival,item=(state.appointmentItems||[]).find(x=>x.registrationId===id);
+      if(!item||item.registrationMode!=='INDIVIDUAL'||item.status!=='CONFIRMED')return;
+      const name=item.donor?.fullName||'người hiến';
+      if(!confirm(`Xác nhận người hiến ${name} đã đến điểm tiếp nhận?\nLịch hẹn: ${viDate(item.appointmentDate)} · ${item.code}\n\nChọn OK để xác nhận; Hủy để giữ nguyên.`))return;
+      state.arrivalPending=true;box.disabled=true;
+      try{
+        const saved=await api('admin_updateRegistrationStatus',{token:state.staffToken,registrationId:id,status:'CHECKED_IN'});
+        if(saved.registrationId!==id||saved.status!=='CHECKED_IN')throw new Error('Máy chủ chưa xác nhận trạng thái đã đến.');
+        const current=(state.appointmentItems||[]).find(x=>x.registrationId===id);
+        if(current){current.status='CHECKED_IN';current.arrivalAt=saved.arrivalAt||'';current.overdue=false;}
+        const statusFilter=$('apptStatus').value;
+        renderAppointments((state.appointmentItems||[]).filter(x=>!statusFilter||x.status===statusFilter));
+        state.reportFilterKey='';
+        toast('Đã xác nhận người hiến '+name+' đến tiếp nhận.');
+      }catch(e){toast('Không thể xác nhận đã đến: '+e.message);}
+      finally{state.arrivalPending=false;box.disabled=false;}
     }
     async function updateRegistrationStatus(id,status){try{await api('admin_updateRegistrationStatus',{token:state.staffToken,registrationId:id,status});toast('Đã cập nhật trạng thái.');}catch(e){toast(e.message)}}
     async function checkIn(){const txt=$('checkinQr').value.trim();if(!txt){toast('Vui lòng quét QR.');return;}try{const d=await api('admin_checkInByQr',{token:state.staffToken,facilityId:state.facilityId,qrText:txt});$('checkinResult').innerHTML=`<div class="card" style="margin-top:14px"><b>${esc(d.donor?.fullName||d.code)}</b><div class="subtle">Đã tiếp nhận: ${esc(d.code)}</div><button id="openCheckedResult" class="btn btn-primary">Nhập kết quả</button></div>`;$('openCheckedResult').onclick=()=>openResult(d.registrationId);toast('Đã tiếp nhận.');}catch(e){toast(e.message)}}
@@ -1104,7 +1129,7 @@
     async function markAllRead(){try{await api('notifications_markRead',{token:state.staffToken,all:true});state.notifications.forEach(n=>n.read=true);renderNotificationList();setBellBadge(0)}catch(e){toast(e.message)}}
     function onForegroundNotification(p){const title=p.title||p.notification?.title||'Có thông tin mới';const body=p.body||p.notification?.body||'';toast(`${title}${body?': '+body:''}`,'Xem',()=>{switchStaffArea('management');setStaffTab('appointments');$('apptKeyword').value=p.registrationId||'';loadAppointments()});refreshNotificationBadge()}
 
-    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=31.6',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
+    async function registerServiceWorker(){if(!('serviceWorker'in navigator))return;try{await navigator.serviceWorker.register('./service-worker.js?v=32.9',{scope:'./'});await navigator.serviceWorker.ready}catch(e){}}
     function getDeviceId(){let id=localStorage.getItem(PUSH_DEVICE_KEY);if(!id){id='DEV_'+crypto.randomUUID();localStorage.setItem(PUSH_DEVICE_KEY,id)}return id}
     async function initPushForeground(){if(!state.staffToken)return;try{state.pushConfig=await api('push_getClientConfig',{token:state.staffToken});if(!state.pushConfig.enabled)return;const [{initializeApp},{getMessaging,onMessage}]=await Promise.all([import('https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js'),import('https://www.gstatic.com/firebasejs/12.15.0/firebase-messaging.js')]);const app=initializeApp(state.pushConfig.firebaseConfig);state.pushMessaging=getMessaging(app);onMessage(state.pushMessaging,payload=>onForegroundNotification({title:payload.notification?.title||payload.data?.title,body:payload.notification?.body||payload.data?.body,...payload.data}));await refreshPushButton()}catch(e){}}
     async function refreshPushButton(){try{const d=await api('push_getStatus',{token:state.staffToken,deviceId:getDeviceId()});$('pushToggleBtn').textContent=d.registered?'Tắt thông báo':'Bật thông báo';$('pushTestBtn').classList.toggle('hidden',!d.registered)}catch(e){}}
